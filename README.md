@@ -167,7 +167,7 @@ The client will start at `http://localhost:5173`.
 
 ### Join a Game
 1. Open the shareable invite link (e.g. `http://localhost:5173/join/A7K92P`) or navigate to **Join a Game**.
-2. Enter the 6-character Room Code and your nickname (e.g. `Maria`).
+2. Enter the 6-character Room Code and your nickname (e.g. `Claire`).
 3. Click **JOIN GAME**.
 
 ### Starting and Playing

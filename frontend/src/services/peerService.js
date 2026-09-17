@@ -4,6 +4,30 @@ import { comfortCards, shuffleCards } from '../data/comfortCards.js';
 // Prefix to avoid collisions on public PeerJS cloud
 const PEER_PREFIX = 'cc-room-v1-';
 
+// Robust ICE configuration including STUN and free TURN relays for cross-network connectivity
+const ICE_CONFIG = {
+  iceServers: [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun1.l.google.com:19302' },
+    { urls: 'stun:openrelay.metered.ca:80' },
+    {
+      urls: 'turn:openrelay.metered.ca:80',
+      username: 'openrelay',
+      credential: 'openrelay'
+    },
+    {
+      urls: 'turn:openrelay.metered.ca:443',
+      username: 'openrelay',
+      credential: 'openrelay'
+    },
+    {
+      urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+      username: 'openrelay',
+      credential: 'openrelay'
+    }
+  ]
+};
+
 export class RoomPeerManager {
   constructor() {
     this.peer = null;
@@ -35,6 +59,7 @@ export class RoomPeerManager {
    * Host creates a room
    */
   async createRoom({ name, maxPlayers = 6, onStateChange, onError, onToast }) {
+    this.destroy(); // Clean any previous connection/listeners
     this.isHost = true;
     this.playerName = name;
     this.playerId = `host_${Math.random().toString(36).substring(2, 9)}`;
@@ -72,12 +97,7 @@ export class RoomPeerManager {
     return new Promise((resolve, reject) => {
       this.peer = new Peer(peerId, {
         debug: 1,
-        config: {
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478' }
-          ]
-        }
+        config: ICE_CONFIG
       });
 
       this.peer.on('open', () => {
@@ -207,6 +227,7 @@ export class RoomPeerManager {
    * Guest joins an existing room
    */
   async joinRoom({ roomCode, name, playerId, onStateChange, onError, onToast }) {
+    this.destroy(); // Clean any previous connection/listeners
     this.isHost = false;
     this.roomCode = roomCode.toUpperCase();
     this.playerName = name;
@@ -216,14 +237,19 @@ export class RoomPeerManager {
     this.onToast = onToast;
 
     return new Promise((resolve, reject) => {
+      let isSettled = false;
+
+      const timeout = setTimeout(() => {
+        if (!isSettled) {
+          isSettled = true;
+          this.destroy();
+          reject(new Error('Connection timed out. Please check the room code and ensure the host is still in the room.'));
+        }
+      }, 15000);
+
       this.peer = new Peer({
         debug: 1,
-        config: {
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478' }
-          ]
-        }
+        config: ICE_CONFIG
       });
 
       this.peer.on('open', () => {
@@ -232,12 +258,7 @@ export class RoomPeerManager {
 
         this.hostConnection = conn;
 
-        const timeout = setTimeout(() => {
-          reject(new Error('Connection timed out. Please verify the room code.'));
-        }, 12000);
-
         conn.on('open', () => {
-          clearTimeout(timeout);
           conn.send({
             type: 'JOIN_REQUEST',
             playerId: this.playerId,
@@ -247,16 +268,24 @@ export class RoomPeerManager {
 
         conn.on('data', (data) => {
           if (data.type === 'JOIN_ACCEPTED') {
-            this.roomState = data.roomState;
-            this._notifyState();
-            resolve({
-              roomCode: this.roomCode,
-              playerId: this.playerId,
-              roomState: this.roomState
-            });
+            if (!isSettled) {
+              isSettled = true;
+              clearTimeout(timeout);
+              this.roomState = data.roomState;
+              this._notifyState();
+              resolve({
+                roomCode: this.roomCode,
+                playerId: this.playerId,
+                roomState: this.roomState
+              });
+            }
           } else if (data.type === 'JOIN_REJECTED') {
-            clearTimeout(timeout);
-            reject(new Error(data.reason || 'Could not join room.'));
+            if (!isSettled) {
+              isSettled = true;
+              clearTimeout(timeout);
+              this.destroy();
+              reject(new Error(data.reason || 'Could not join room.'));
+            }
           } else if (data.type === 'ROOM_STATE') {
             this.roomState = data.roomState;
             this._notifyState();
@@ -270,13 +299,26 @@ export class RoomPeerManager {
         });
 
         conn.on('error', (err) => {
-          clearTimeout(timeout);
-          reject(new Error('Failed to connect to host.'));
+          if (!isSettled) {
+            isSettled = true;
+            clearTimeout(timeout);
+            this.destroy();
+            reject(new Error('Failed to establish peer connection with host.'));
+          }
         });
       });
 
       this.peer.on('error', (err) => {
-        reject(new Error(`Peer error: ${err.type || 'Connection failed'}`));
+        if (!isSettled) {
+          isSettled = true;
+          clearTimeout(timeout);
+          this.destroy();
+          if (err.type === 'peer-unavailable') {
+            reject(new Error('Room not found. Please double-check the 6-character room code.'));
+          } else {
+            reject(new Error(`Connection failed (${err.type || err.message || 'network error'})`));
+          }
+        }
       });
     });
   }

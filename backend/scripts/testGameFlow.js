@@ -44,12 +44,12 @@ console.log(`✓ Room created successfully: ${roomCode}`);
 
 // 4. Join second player
 const player2Id = 'player_guest456';
-joinRoom(roomCode, 'Maria', player2Id, 'socket_2');
+joinRoom(roomCode, 'Claire', player2Id, 'socket_2');
 assert.strictEqual(room.players.length, 2);
 console.log('✓ Player 2 joined successfully');
 
 // 5. Test reconnection
-joinRoom(roomCode, 'Maria Updated', player2Id, 'socket_2_reconnected');
+joinRoom(roomCode, 'Claire Updated', player2Id, 'socket_2_reconnected');
 assert.strictEqual(room.players.length, 2, 'Reconnecting existing player should not create duplicate');
 assert.strictEqual(room.players[1].socketId, 'socket_2_reconnected');
 assert.strictEqual(room.players[1].connected, true);
