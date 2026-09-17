@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { ArrowLeft, LogIn } from 'lucide-react';
-import { verifyRoom } from '../services/api.js';
 
 export function JoinGame({ onJoinRoom }) {
   const { initialCode } = useParams();
@@ -46,14 +45,6 @@ export function JoinGame({ onJoinRoom }) {
     try {
       setLoading(true);
       setError('');
-
-      // Pre-check room existence via REST API
-      const roomCheck = await verifyRoom(cleanCode);
-      if (!roomCheck.success) {
-        setError(roomCheck.message || 'Room not found or expired.');
-        setLoading(false);
-        return;
-      }
 
       await onJoinRoom(cleanCode, cleanName);
       navigate(`/room/${cleanCode}`);
