@@ -2,17 +2,18 @@
 
 > **"Sometimes one question is enough to start a meaningful conversation."**
 
-Comfort Cards Online is an original, temporary, web-based multiplayer card game featuring an original 60-question Tagalog-English conversation deck. Friends and loved ones can open the website, start a private room in seconds, share an invite link, and play together in real-time—with no accounts, logins, or saved history.
+Comfort Cards Online is an original, temporary, web-based multiplayer card game featuring a 120-question Tagalog-English master conversation deck. Each game dynamically and randomly selects 60 unique questions from the pool. Friends and loved ones can open the website, start a private room in seconds, share an invite link, and play together in real-time—with no accounts, logins, or saved history.
 
 ---
 
 ## 1. What the Application Does
 
 - **Zero-Friction Multiplayer**: Create or join a game by simply entering a temporary nickname and a 6-character room code.
-- **Original 60-Card Deck**: A thoughtful mix of reflective Tagalog and English questions designed to encourage emotional honesty, comfort, and vulnerability.
-- **Authoritative Turn Management**: The server orchestrates round-robin turns, ensuring only the active player can draw and answer questions.
-- **Tactile 3D Card Experience**: Interactive card flip animations and responsive mobile-first UI.
-- **100% In-Memory State**: No database, no user accounts, no saved profiles, and no permanent answer logs.
+- **120-Card Master Question Bank**: A thoughtful mix of 120 reflective Tagalog and English questions with optional bilingual sample answers.
+- **Random 60 Questions Per Game**: Each game randomly draws exactly 60 non-repeating cards from the master bank.
+- **Host-Only Deck Control**: The room creator (Host) manages game start and card progression, while other players see clear waiting statuses.
+- **Zero Answer Collection**: No answer inputs, no scoring, and no transcripts—purely sparks meaningful verbal conversation.
+- **100% Ephemeral State**: Runs serverless on GitHub Pages via WebRTC P2P DataChannels. No database, no user accounts, no saved profiles.
 
 ---
 

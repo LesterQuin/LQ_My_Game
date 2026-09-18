@@ -485,6 +485,486 @@ export const comfortCards = [
     english: "If you had to choose one word to describe this season of your life, what would it be and why?",
     sampleAnswerTagalog: "Growth. Hindi dahil alam ko na ang lahat, kundi dahil marami akong natututunan tungkol sa sarili ko habang dumadaan ako sa mga bagay na hindi ko inaasahan.",
     sampleAnswerEnglish: "Growth. Not because I have everything figured out, but because I'm learning so much about myself while going through things I never expected."
+  },
+  {
+    id: 61,
+    category: "Quiet Moments",
+    tagalog: "Ano ang isang tahimik na sandali na gusto mong maranasan nang mas madalas?",
+    english: "What is one quiet moment you wish you could experience more often?",
+    sampleAnswerTagalog: "Yung umagang walang kailangang habulin. Gusto ko lang minsan uminom ng kape nang tahimik at hindi isipin kung ano ang susunod na kailangan kong gawin.",
+    sampleAnswerEnglish: "A morning where I don't have to rush anywhere. Sometimes I just want to drink coffee quietly without thinking about what I need to do next."
+  },
+  {
+    id: 62,
+    category: "Growth",
+    tagalog: "Ano ang isang bagay na dati mong pinagdudahan sa sarili mo pero ngayon alam mong kaya mo?",
+    english: "What is something you once doubted about yourself but now know you can do?",
+    sampleAnswerTagalog: "Dati akala ko kailangan kong maging confident muna bago ko subukan. Natutunan ko na minsan, kailangan mo lang magsimula kahit kinakabahan ka.",
+    sampleAnswerEnglish: "I used to think I had to be confident before trying. I learned that sometimes you just have to start even when you're nervous."
+  },
+  {
+    id: 63,
+    category: "Friendship",
+    tagalog: "Ano ang isang maliit na bagay na ginagawa ng isang kaibigan na talagang naa-appreciate mo?",
+    english: "What is a small thing a friend does that you really appreciate?",
+    sampleAnswerTagalog: "Yung simpleng pag-check nila kung okay lang ako. Kahit isang 'Kumusta ka?' minsan malaking bagay na kapag alam mong sincere.",
+    sampleAnswerEnglish: "When they simply check if I'm okay. Even a small 'How are you?' can mean a lot when you know they genuinely mean it."
+  },
+  {
+    id: 64,
+    category: "Unspoken Feelings",
+    tagalog: "Ano ang isang bagay na nararamdaman mo ngayon na nahihirapan kang ipaliwanag?",
+    english: "What is something you're feeling right now that is difficult to explain?",
+    sampleAnswerTagalog: "Parang okay naman ako pero may part sa akin na pagod. Hindi naman ako malungkot, pero gusto ko lang siguro ng konting pahinga.",
+    sampleAnswerEnglish: "I feel like I'm okay, but there's a part of me that's tired. I'm not exactly sad; I think I just need a little rest."
+  },
+  {
+    id: 65,
+    category: "Little Things",
+    tagalog: "Ano ang isang ordinaryong bagay na unexpectedly nagpapasaya sa'yo?",
+    english: "What is an ordinary thing that unexpectedly makes you happy?",
+    sampleAnswerTagalog: "Kapag sakto yung music na naririnig ko habang naglalakad. Wala namang malaking nangyayari, pero parang gumagaan bigla yung araw ko.",
+    sampleAnswerEnglish: "When the right song comes on while I'm walking. Nothing special is happening, but somehow the whole day feels a little lighter."
+  },
+  {
+    id: 66,
+    category: "Change",
+    tagalog: "Anong pagbabago sa sarili mo ang napansin mo nitong mga nakaraang taon?",
+    english: "What change in yourself have you noticed over the past few years?",
+    sampleAnswerTagalog: "Mas natutunan kong hindi lahat kailangan ipaglaban. May mga bagay na okay lang bitawan kapag hindi na talaga para sa akin.",
+    sampleAnswerEnglish: "I've learned that not everything needs to be fought for. Some things are okay to let go of when they are no longer meant for me."
+  },
+  {
+    id: 67,
+    category: "Childhood",
+    tagalog: "Ano ang isang bagay mula sa childhood mo na gusto mong dalhin hanggang pagtanda?",
+    english: "What is something from your childhood that you want to carry with you as you grow older?",
+    sampleAnswerTagalog: "Yung pagiging excited sa maliliit na bagay. Sana kahit tumanda ako, matutunan ko pa ring ma-enjoy yung simpleng moments.",
+    sampleAnswerEnglish: "The excitement I had over little things. I hope that even as I grow older, I can still enjoy simple moments."
+  },
+  {
+    id: 68,
+    category: "Understanding",
+    tagalog: "Ano ang isang bagay tungkol sa'yo na sana mas madaling maintindihan ng ibang tao?",
+    english: "What is something about you that you wish other people understood more easily?",
+    sampleAnswerTagalog: "Kapag tahimik ako, hindi ibig sabihin na galit ako. Minsan kailangan ko lang ng oras para ayusin sa isip ko yung nararamdaman ko.",
+    sampleAnswerEnglish: "When I'm quiet, it doesn't mean I'm angry. Sometimes I just need time to process what I'm feeling."
+  },
+  {
+    id: 69,
+    category: "Future",
+    tagalog: "Ano ang isang bagay na gusto mong maranasan ng future version ng sarili mo?",
+    english: "What is something you want your future self to experience?",
+    sampleAnswerTagalog: "Gusto kong maranasan niya yung feeling na masasabi niyang, 'Worth it pala lahat ng pinagdaanan ko.'",
+    sampleAnswerEnglish: "I want my future self to experience the feeling of being able to say, 'Everything I went through was worth it.'"
+  },
+  {
+    id: 70,
+    category: "Rest",
+    tagalog: "Ano ang isang bagay na kailangan mong matutunang ipahinga?",
+    english: "What is something you need to learn to rest from?",
+    sampleAnswerTagalog: "Yung pressure na kailangan lagi akong productive. Hindi naman nasusukat yung worth ko sa dami ng nagagawa ko sa isang araw.",
+    sampleAnswerEnglish: "The pressure to always be productive. My worth isn't measured by how much I accomplish in one day."
+  },
+  {
+    id: 71,
+    category: "People",
+    tagalog: "Ano ang katangian ng isang tao na agad nagpaparamdam sa'yo na comfortable ka?",
+    english: "What quality in a person immediately makes you feel comfortable?",
+    sampleAnswerTagalog: "Yung hindi nila ako pinipilit magsalita. Comfortable ako sa taong marunong makinig at hindi kailangan punuin lahat ng silence.",
+    sampleAnswerEnglish: "Someone who doesn't force me to talk. I feel comfortable with people who know how to listen and don't feel the need to fill every silence."
+  },
+  {
+    id: 72,
+    category: "Lessons",
+    tagalog: "Ano ang isang lesson na sana natutunan mo nang mas maaga?",
+    english: "What is one lesson you wish you had learned earlier?",
+    sampleAnswerTagalog: "Na hindi ko kailangang i-please lahat ng tao. Kahit gawin mo ang best mo, may mga taong hindi pa rin maiintindihan ang choices mo.",
+    sampleAnswerEnglish: "That I don't have to please everyone. Even when you do your best, some people still won't understand your choices."
+  },
+  {
+    id: 73,
+    category: "Appreciation",
+    tagalog: "Ano ang isang bagay na ginagawa ng mga taong mahal mo na minsan nakakalimutan mong pahalagahan?",
+    english: "What is something the people you love do that you sometimes forget to appreciate?",
+    sampleAnswerTagalog: "Yung pagiging present nila sa ordinaryong araw. Minsan hindi natin napapansin na malaking bagay pala yung may taong nandiyan lang.",
+    sampleAnswerEnglish: "Their presence during ordinary days. Sometimes we don't realize how meaningful it is simply to have someone there."
+  },
+  {
+    id: 74,
+    category: "Boundaries",
+    tagalog: "Ano ang isang boundary na natutunan mong kailangan mong magkaroon?",
+    english: "What is one boundary you've learned that you need to have?",
+    sampleAnswerTagalog: "Kailangan kong matutong magsabi kapag kailangan ko ng space. Hindi ko kailangang magpaliwanag nang sobra para lang respetuhin yung kailangan ko.",
+    sampleAnswerEnglish: "I've learned that I need to say when I need space. I don't have to over-explain myself just to have my needs respected."
+  },
+  {
+    id: 75,
+    category: "Hope",
+    tagalog: "Ano ang isang bagay na inaabangan mong mangyari kahit hindi mo alam kung kailan?",
+    english: "What is something you're looking forward to even though you don't know when it will happen?",
+    sampleAnswerTagalog: "Yung panahon na mas magiging payapa na ang buhay ko. Hindi ko alam kung kailan, pero gusto kong maniwala na darating din iyon.",
+    sampleAnswerEnglish: "A time when life feels more peaceful. I don't know when it will happen, but I want to believe that it will."
+  },
+  {
+    id: 76,
+    category: "Self-Worth",
+    tagalog: "Ano ang isang bagay na gusto mong maalala kapag nagsisimula kang mag-doubt sa sarili mo?",
+    english: "What is something you want to remember when you start doubting yourself?",
+    sampleAnswerTagalog: "Na nalampasan ko na ang maraming bagay na akala ko hindi ko kakayanin. Baka mahirap ngayon, pero hindi ibig sabihin na hindi ko kaya.",
+    sampleAnswerEnglish: "I've already survived many things I once thought I couldn't handle. It may be hard now, but that doesn't mean I can't get through it."
+  },
+  {
+    id: 77,
+    category: "Memories",
+    tagalog: "Anong lugar ang may memoryang hindi mo madaling makalimutan?",
+    english: "What place holds a memory you don't think you'll easily forget?",
+    sampleAnswerTagalog: "Yung bahay kung saan ako lumaki. Kahit maraming nagbago, may certain feeling doon na parang bumabalik ako sa panahong simple pa ang lahat.",
+    sampleAnswerEnglish: "The house where I grew up. Even though so much has changed, being there brings back a feeling from when life was simpler."
+  },
+  {
+    id: 78,
+    category: "Connection",
+    tagalog: "Ano ang isang conversation na matagal mo nang gustong magkaroon?",
+    english: "What is a conversation you've been wanting to have for a long time?",
+    sampleAnswerTagalog: "Gusto kong magkaroon ng honest conversation sa isang taong mahalaga sa akin, kung saan pareho kaming makakapagsabi ng tunay naming nararamdaman.",
+    sampleAnswerEnglish: "I'd like to have an honest conversation with someone important to me where we can both say what we truly feel."
+  },
+  {
+    id: 79,
+    category: "Courage",
+    tagalog: "Ano ang isang bagay na gusto mong gawin pero kinakabahan kang simulan?",
+    english: "What is something you want to do but are nervous to start?",
+    sampleAnswerTagalog: "Gusto kong subukan yung isang bagay na matagal ko nang iniisip. Natatakot ako na baka hindi ako magaling, pero alam kong hindi ko malalaman kung hindi ko susubukan.",
+    sampleAnswerEnglish: "I want to try something I've been thinking about for a long time. I'm afraid I won't be good at it, but I know I won't find out unless I try."
+  },
+  {
+    id: 80,
+    category: "Acceptance",
+    tagalog: "Ano ang isang bagay na natutunan mong hindi mo kayang kontrolin?",
+    english: "What is something you've learned you cannot control?",
+    sampleAnswerTagalog: "Kung paano ako nakikita ng ibang tao. Kaya ngayon mas sinusubukan kong maging okay sa sarili ko kaysa habulin yung approval ng lahat.",
+    sampleAnswerEnglish: "How other people see me. So now I'm trying to be okay with myself instead of constantly seeking everyone's approval."
+  },
+  {
+    id: 81,
+    category: "Comfort",
+    tagalog: "Ano ang isang salita o phrase na gusto mong marinig kapag mabigat ang araw mo?",
+    english: "What is one word or phrase you'd like to hear when you're having a difficult day?",
+    sampleAnswerTagalog: "Siguro 'nandito lang ako.' Hindi naman kailangan laging may solution. Minsan sapat nang alam mong hindi mo kailangang harapin lahat mag-isa.",
+    sampleAnswerEnglish: "Probably 'I'm here.' There doesn't always need to be a solution. Sometimes it's enough to know you don't have to face everything alone."
+  },
+  {
+    id: 82,
+    category: "Dreams",
+    tagalog: "Ano ang pangarap na kahit maliit ay gusto mong matupad balang araw?",
+    english: "What is a small dream you would still like to achieve someday?",
+    sampleAnswerTagalog: "Gusto kong magkaroon ng isang lugar na tahimik at comfortable, kung saan pwede kong sabihin na, 'Okay, nakarating din ako dito.'",
+    sampleAnswerEnglish: "I'd like to have a quiet, comfortable place of my own where I can finally say, 'I made it here.'"
+  },
+  {
+    id: 83,
+    category: "Forgiveness",
+    tagalog: "Ano ang mas mahirap para sa'yo: patawarin ang sarili mo o patawarin ang ibang tao? Bakit?",
+    english: "What's harder for you: forgiving yourself or forgiving someone else? Why?",
+    sampleAnswerTagalog: "Mas mahirap patawarin ang sarili ko. Mas madaling sabihin sa ibang tao na okay lang magkamali kaysa sabihin iyon sa sarili ko.",
+    sampleAnswerEnglish: "Forgiving myself is harder. It's easier to tell someone else that mistakes are okay than to give myself the same kindness."
+  },
+  {
+    id: 84,
+    category: "Presence",
+    tagalog: "Sino ang taong gusto mong makasama kahit walang kailangang gawin?",
+    english: "Who is someone you'd be happy to be with even without doing anything?",
+    sampleAnswerTagalog: "Yung taong hindi awkward kahit tahimik lang kami. Yung presence niya mismo enough na para maging comfortable ako.",
+    sampleAnswerEnglish: "Someone I can sit with without the silence feeling awkward. Their presence alone makes me feel comfortable."
+  },
+  {
+    id: 85,
+    category: "Change",
+    tagalog: "Ano ang isang bagay na gusto mong baguhin sa routine mo para mas maging okay ka?",
+    english: "What is one thing you'd like to change in your routine to feel better?",
+    sampleAnswerTagalog: "Gusto kong matutong maglaan ng oras para sa sarili ko bago ako maubos. Madalas kasi saka lang ako nagpapahinga kapag sobrang pagod na.",
+    sampleAnswerEnglish: "I'd like to make time for myself before I'm completely drained. I often only rest when I'm already exhausted."
+  },
+  {
+    id: 86,
+    category: "Self-Reflection",
+    tagalog: "Ano ang isang bagay tungkol sa sarili mo na mas naiintindihan mo na ngayon?",
+    english: "What is something about yourself that you understand better now?",
+    sampleAnswerTagalog: "Mas naiintindihan ko na ngayon kung bakit kailangan ko minsan mapag-isa. Hindi pala ibig sabihin na ayaw ko sa mga tao; kailangan ko lang mag-recharge.",
+    sampleAnswerEnglish: "I understand better now why I sometimes need to be alone. It doesn't mean I dislike people; I just need time to recharge."
+  },
+  {
+    id: 87,
+    category: "Gratitude",
+    tagalog: "Ano ang isang bagay na mayroon ka ngayon na dati ipinagdarasal mo lang?",
+    english: "What is something you have now that you once only wished for?",
+    sampleAnswerTagalog: "Yung stability na dati gusto ko lang maranasan. Hindi perfect ang buhay ngayon, pero may mga bagay na dati pangarap ko lang at ngayon normal na sa akin.",
+    sampleAnswerEnglish: "The stability I once wished for. Life isn't perfect now, but some things I used to dream about have become part of my normal life."
+  },
+  {
+    id: 88,
+    category: "Regret",
+    tagalog: "Ano ang isang bagay na pinagsisisihan mo pero may natutunan ka rin?",
+    english: "What is something you regret but also learned from?",
+    sampleAnswerTagalog: "May mga pagkakataong hinayaan kong lumipas dahil natakot ako. Pinagsisisihan ko iyon, pero natutunan kong hindi lahat ng pagkakataon bumabalik.",
+    sampleAnswerEnglish: "There were moments I let pass because I was afraid. I regret that, but it taught me that not every opportunity comes back."
+  },
+  {
+    id: 89,
+    category: "Love",
+    tagalog: "Ano ang isang paraan kung paano mo ipinapakita na mahalaga sa'yo ang isang tao?",
+    english: "What is one way you show someone that they matter to you?",
+    sampleAnswerTagalog: "Pinapakinggan ko sila kahit paulit-ulit yung kwento. Gusto kong maramdaman nila na may taong genuinely interested sa pinagdadaanan nila.",
+    sampleAnswerEnglish: "I listen even when they've told the story before. I want them to feel that someone genuinely cares about what they're going through."
+  },
+  {
+    id: 90,
+    category: "Identity",
+    tagalog: "Ano ang isang bahagi ng sarili mo na ayaw mong mawala habang nagbabago ka?",
+    english: "What is one part of yourself you never want to lose as you change?",
+    sampleAnswerTagalog: "Yung pagiging caring ko. Kahit minsan nasasaktan ako dahil masyado akong nagbibigay, ayokong maging taong wala nang pakialam.",
+    sampleAnswerEnglish: "My caring nature. Even though it sometimes hurts me to give too much, I don't want to become someone who stops caring."
+  },
+  {
+    id: 91,
+    category: "Peace",
+    tagalog: "Ano ang itsura ng isang peaceful day para sa'yo?",
+    english: "What does a peaceful day look like for you?",
+    sampleAnswerTagalog: "Walang nagmamadali, walang mabigat na kailangan isipin, tapos may magandang pagkain at mga taong comfortable akong kasama.",
+    sampleAnswerEnglish: "No rushing, nothing heavy on my mind, good food, and people I feel comfortable being around."
+  },
+  {
+    id: 92,
+    category: "Growing Up",
+    tagalog: "Ano ang isang bagay tungkol sa pagiging adult na hindi mo in-expect?",
+    english: "What is something about being an adult that you didn't expect?",
+    sampleAnswerTagalog: "Na minsan kailangan mong maging okay kahit wala ka pang idea kung paano maaayos ang lahat. Natututo ka habang ginagawa mo.",
+    sampleAnswerEnglish: "That sometimes you have to keep going even when you have no idea how everything will work out. You learn while you're doing it."
+  },
+  {
+    id: 93,
+    category: "Friendship",
+    tagalog: "Ano ang sign para sa'yo na tunay na kaibigan ang isang tao?",
+    english: "What is a sign that someone is a true friend to you?",
+    sampleAnswerTagalog: "Kapag kaya nilang maging masaya para sa'yo kahit wala silang makukuhang benefit. Yung support nila hindi nakadepende sa kung ano ang kaya mong ibigay.",
+    sampleAnswerEnglish: "When they're genuinely happy for you even when they gain nothing from it. Their support isn't dependent on what you can give them."
+  },
+  {
+    id: 94,
+    category: "Self-Care",
+    tagalog: "Ano ang ginagawa mo kapag gusto mong i-reset ang sarili mo?",
+    english: "What do you do when you need to reset yourself?",
+    sampleAnswerTagalog: "Minsan natutulog lang ako nang maayos, naglalakad, o nag-o-off muna sa mga bagay na nakaka-overwhelm. Simple lang pero malaking tulong.",
+    sampleAnswerEnglish: "Sometimes I just get proper sleep, take a walk, or disconnect from things that overwhelm me. It's simple, but it helps a lot."
+  },
+  {
+    id: 95,
+    category: "Uncertainty",
+    tagalog: "Ano ang pinakamahirap para sa'yo kapag hindi mo alam kung ano ang mangyayari?",
+    english: "What is hardest for you when you don't know what will happen?",
+    sampleAnswerTagalog: "Yung feeling na wala akong control. Pero natutunan kong hindi ko kailangang malaman agad ang lahat para magpatuloy.",
+    sampleAnswerEnglish: "The feeling of not being in control. But I've learned that I don't need to know everything right away to keep moving forward."
+  },
+  {
+    id: 96,
+    category: "Memories",
+    tagalog: "Ano ang isang tunog o kanta na automatic nagpapaalala sa'yo ng isang panahon ng buhay mo?",
+    english: "What sound or song automatically reminds you of a certain time in your life?",
+    sampleAnswerTagalog: "May mga kanta na kahit ilang taon na, isang intro lang at parang bumabalik agad ako sa isang specific na panahon.",
+    sampleAnswerEnglish: "There are songs where just hearing the intro instantly takes me back to a specific time in my life."
+  },
+  {
+    id: 97,
+    category: "Relationships",
+    tagalog: "Ano ang pinaka-importanteng natutunan mo tungkol sa pagiging close sa isang tao?",
+    english: "What is the most important thing you've learned about being close to someone?",
+    sampleAnswerTagalog: "Na kailangan mong maging honest kahit uncomfortable. Hindi magiging tunay na close kung puro magandang bagay lang ang kayang pag-usapan.",
+    sampleAnswerEnglish: "That you have to be honest even when it's uncomfortable. You can't become truly close if you can only talk about the easy things."
+  },
+  {
+    id: 98,
+    category: "Patience",
+    tagalog: "Ano ang isang bagay na kailangan mong bigyan ng mas maraming time?",
+    english: "What is something you need to give more time to?",
+    sampleAnswerTagalog: "Sarili ko. Minsan gusto kong makita agad yung progress, pero may mga bagay talagang kailangan dahan-dahan.",
+    sampleAnswerEnglish: "Myself. Sometimes I want to see progress immediately, but some things genuinely need time."
+  },
+  {
+    id: 99,
+    category: "Courage",
+    tagalog: "Kailan mo huling ginawa ang isang bagay kahit natatakot ka?",
+    english: "When was the last time you did something even though you were afraid?",
+    sampleAnswerTagalog: "Noong pinili kong gawin yung isang bagay na matagal kong iniiwasan. Kinakabahan ako buong time, pero pagkatapos, proud ako na hindi ako umatras.",
+    sampleAnswerEnglish: "When I finally did something I'd been avoiding for a long time. I was nervous the whole time, but afterward I was proud that I didn't back out."
+  },
+  {
+    id: 100,
+    category: "Self-Respect",
+    tagalog: "Ano ang isang bagay na hindi mo na kayang tanggapin ngayon na dati pinapalampas mo lang?",
+    english: "What is something you no longer tolerate that you used to let slide?",
+    sampleAnswerTagalog: "Yung paulit-ulit na disrespect. Natutunan kong hindi porke kaya kong intindihin ang isang tao, kailangan kong tiisin lahat ng ginagawa niya.",
+    sampleAnswerEnglish: "Repeated disrespect. I've learned that just because I can understand someone doesn't mean I have to tolerate everything they do."
+  },
+  {
+    id: 101,
+    category: "Dreams",
+    tagalog: "Kung may isang bagay kang gustong matutunan mula ngayon, ano iyon?",
+    english: "If there is one thing you could learn from now on, what would it be?",
+    sampleAnswerTagalog: "Gusto kong matutong maging mas present. Minsan kasi sobrang iniisip ko yung future o past na nakakalimutan kong nandito ako ngayon.",
+    sampleAnswerEnglish: "I'd like to learn how to be more present. Sometimes I think so much about the future or past that I forget I'm here right now."
+  },
+  {
+    id: 102,
+    category: "Home",
+    tagalog: "Ano ang isang bagay na nagpaparamdam sa'yo na nasa bahay ka kahit wala ka sa bahay?",
+    english: "What makes you feel at home even when you're away from home?",
+    sampleAnswerTagalog: "Kapag kasama ko yung mga taong hindi ko kailangang magpanggap. Kahit saan kami, parang may feeling na safe ako.",
+    sampleAnswerEnglish: "Being around people I don't have to pretend around. Wherever we are, I get that feeling that I'm safe."
+  },
+  {
+    id: 103,
+    category: "Healing",
+    tagalog: "Ano ang isang bagay na unti-unti mong natututunang tanggapin?",
+    english: "What is something you're slowly learning to accept?",
+    sampleAnswerTagalog: "Na may mga taong hindi talaga mananatili sa buhay natin. Masakit, pero hindi ibig sabihin na walang value yung panahon na kasama natin sila.",
+    sampleAnswerEnglish: "That some people won't stay in our lives forever. It hurts, but that doesn't mean the time we shared with them had no value."
+  },
+  {
+    id: 104,
+    category: "Simple Joys",
+    tagalog: "Ano ang isang maliit na bagay na gusto mong gawin kapag gusto mong maging masaya?",
+    english: "What is one small thing you like doing when you want to feel happy?",
+    sampleAnswerTagalog: "Kumain ng favorite food ko habang nanonood ng something familiar. Minsan kailangan ko lang ng maliit na comfort.",
+    sampleAnswerEnglish: "Eating my favorite food while watching something familiar. Sometimes I just need a little comfort."
+  },
+  {
+    id: 105,
+    category: "Reflection",
+    tagalog: "Kung makikita mo ang sarili mo five years ago, ano ang gusto mong sabihin sa kanya?",
+    english: "If you could see yourself five years ago, what would you tell them?",
+    sampleAnswerTagalog: "Hindi mo kailangang madaliin ang buhay. Marami sa mga bagay na kinakatakutan mo ngayon, malalagpasan mo rin.",
+    sampleAnswerEnglish: "You don't have to rush your life. A lot of the things you're afraid of right now will eventually become things you get through."
+  },
+  {
+    id: 106,
+    category: "Connection",
+    tagalog: "Ano ang isang bagay na ginagawa ng isang tao na nagpaparamdam sa'yo na naaalala ka niya?",
+    english: "What is something someone does that makes you feel remembered?",
+    sampleAnswerTagalog: "Kapag naaalala nila yung maliit na detail na sinabi ko months ago. Nakakatuwa yung feeling na may taong nakinig pala talaga.",
+    sampleAnswerEnglish: "When they remember a small detail I mentioned months ago. It feels good knowing someone actually listened."
+  },
+  {
+    id: 107,
+    category: "Letting Go",
+    tagalog: "Ano ang isang bagay na alam mong kailangan mong bitawan pero hindi ka pa ready?",
+    english: "What is something you know you need to let go of but aren't ready to?",
+    sampleAnswerTagalog: "Yung expectation na magiging exactly the way I imagined ang isang bagay. Natututo pa rin akong tanggapin na minsan iba ang ending kaysa sa plano ko.",
+    sampleAnswerEnglish: "The expectation that something will turn out exactly the way I imagined. I'm still learning to accept that sometimes the ending is different from the plan."
+  },
+  {
+    id: 108,
+    category: "Happiness",
+    tagalog: "Kailan mo masasabi na genuinely masaya ka?",
+    english: "When can you say that you are genuinely happy?",
+    sampleAnswerTagalog: "Kapag hindi ko kailangang pilitin yung sarili kong maging okay. Yung tahimik lang pero may feeling na content ako sa moment.",
+    sampleAnswerEnglish: "When I don't have to force myself to be okay. It's when I can simply be in the moment and feel content."
+  },
+  {
+    id: 109,
+    category: "Relationships",
+    tagalog: "Ano ang isang bagay na gusto mong mas maintindihan ng taong malapit sa'yo?",
+    english: "What is something you wish someone close to you understood better about you?",
+    sampleAnswerTagalog: "Na minsan kailangan ko lang marinig at hindi agad mabigyan ng advice. Hindi ko laging kailangan ng solution; minsan gusto ko lang may makinig.",
+    sampleAnswerEnglish: "That sometimes I just need to be heard instead of immediately being given advice. I don't always need a solution; sometimes I just need someone to listen."
+  },
+  {
+    id: 110,
+    category: "Life Lessons",
+    tagalog: "Ano ang isang bagay na natutunan mo tungkol sa buhay na hindi mo makakalimutan?",
+    english: "What is one thing life has taught you that you'll never forget?",
+    sampleAnswerTagalog: "Na hindi natin alam kung gaano katagal ang isang moment o relationship, kaya mas gusto kong sabihin at ipakita sa mga tao kapag mahalaga sila sa akin.",
+    sampleAnswerEnglish: "We never know how long a moment or relationship will last, so I try to tell people and show them when they matter to me."
+  },
+  {
+    id: 111,
+    category: "Future Self",
+    tagalog: "Ano ang gusto mong ipagmalaki ng future self mo tungkol sa kung paano mo hinaharap ang buhay ngayon?",
+    english: "What do you want your future self to be proud of about how you're handling life right now?",
+    sampleAnswerTagalog: "Sana proud siya na kahit maraming uncertainty, hindi ako sumuko sa sarili ko.",
+    sampleAnswerEnglish: "I hope they're proud that even with all the uncertainty, I didn't give up on myself."
+  },
+  {
+    id: 112,
+    category: "Vulnerability",
+    tagalog: "Ano ang isang bagay na mahirap aminin kahit sa sarili mo?",
+    english: "What is something that's difficult to admit even to yourself?",
+    sampleAnswerTagalog: "Na minsan gusto ko rin ng reassurance kahit sanay akong magpanggap na kaya ko lahat.",
+    sampleAnswerEnglish: "That sometimes I need reassurance too, even though I'm used to pretending I can handle everything."
+  },
+  {
+    id: 113,
+    category: "Peace",
+    tagalog: "Ano ang isang bagay na gusto mong magkaroon ng less sa buhay mo?",
+    english: "What is something you'd like to have less of in your life?",
+    sampleAnswerTagalog: "Overthinking. Ang daming oras na nauubos sa pag-iisip ng mga bagay na hindi ko naman kontrolado.",
+    sampleAnswerEnglish: "Overthinking. I spend so much time thinking about things that I can't actually control."
+  },
+  {
+    id: 114,
+    category: "Appreciation",
+    tagalog: "Ano ang isang bagay na gusto mong mas ma-appreciate habang nandiyan pa?",
+    english: "What is something you want to appreciate more while you still have it?",
+    sampleAnswerTagalog: "Yung ordinaryong araw kasama ang mga taong mahal ko. Alam kong darating yung panahon na mami-miss ko rin yung mga simpleng araw na ito.",
+    sampleAnswerEnglish: "Ordinary days with the people I love. I know there will come a time when I'll miss these simple days."
+  },
+  {
+    id: 115,
+    category: "Choices",
+    tagalog: "Ano ang isang choice na ginawa mo na nagbago sa direction ng buhay mo?",
+    english: "What is one choice you made that changed the direction of your life?",
+    sampleAnswerTagalog: "Yung pagpili kong subukan kahit hindi ako sigurado. Hindi man naging perfect ang resulta, doon nagsimula ang maraming pagbabago sa buhay ko.",
+    sampleAnswerEnglish: "Choosing to try even when I wasn't sure. The result wasn't perfect, but that decision started many changes in my life."
+  },
+  {
+    id: 116,
+    category: "Self-Compassion",
+    tagalog: "Ano ang isang bagay na gusto mong maging mas gentle ka sa sarili mo tungkol dito?",
+    english: "What is something you want to be gentler with yourself about?",
+    sampleAnswerTagalog: "Yung mga bagay na hindi ko pa naa-achieve. Kailangan kong tandaan na hindi naman pare-pareho ang timeline ng bawat tao.",
+    sampleAnswerEnglish: "The things I haven't achieved yet. I need to remember that everyone has a different timeline."
+  },
+  {
+    id: 117,
+    category: "Belonging",
+    tagalog: "Kailan mo nararamdaman na belong ka talaga?",
+    english: "When do you feel like you truly belong?",
+    sampleAnswerTagalog: "Kapag hindi ko kailangang baguhin yung sarili ko para makasabay. Yung pwede akong maging ako at welcome pa rin ako.",
+    sampleAnswerEnglish: "When I don't have to change myself just to fit in. I can be myself and still feel welcome."
+  },
+  {
+    id: 118,
+    category: "Hope",
+    tagalog: "Ano ang isang bagay na gusto mong mangyari bago matapos ang chapter na ito ng buhay mo?",
+    english: "What is something you hope happens before this chapter of your life ends?",
+    sampleAnswerTagalog: "Gusto kong magkaroon ng isang moment na masasabi kong masaya ako sa kung nasaan ako, kahit hindi pa perfect ang lahat.",
+    sampleAnswerEnglish: "I want to have a moment where I can say I'm happy with where I am, even if everything isn't perfect yet."
+  },
+  {
+    id: 119,
+    category: "Legacy",
+    tagalog: "Ano ang gusto mong maalala ng mga taong nakilala mo tungkol sa'yo?",
+    english: "What do you want the people you've met to remember about you?",
+    sampleAnswerTagalog: "Sana maalala nila na kahit papaano, naging mabuti ako sa kanila. Hindi kailangan malaking bagay; gusto ko lang maging taong nakapagbigay ng comfort kahit kaunti.",
+    sampleAnswerEnglish: "I hope they remember that I was kind to them in some way. It doesn't have to be something big; I'd just like to be someone who brought them a little comfort."
+  },
+  {
+    id: 120,
+    category: "The Present",
+    tagalog: "Kung kailangan mong magpasalamat sa buhay mo ngayon para sa isang bagay lang, ano iyon?",
+    english: "If you could thank your life right now for just one thing, what would it be?",
+    sampleAnswerTagalog: "Magpapasalamat ako sa mga taong nanatili. Maraming nagbago sa buhay ko, pero may mga taong pinili pa ring nandiyan, at malaking bagay iyon para sa akin.",
+    sampleAnswerEnglish: "I'd thank my life for the people who stayed. So much has changed, but some people still chose to be there, and that means a lot to me."
   }
 ];
 

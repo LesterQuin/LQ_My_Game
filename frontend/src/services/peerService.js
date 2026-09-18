@@ -4,6 +4,9 @@ import { comfortCards, shuffleCards } from '../data/comfortCards.js';
 // Prefix to avoid collisions on public PeerJS cloud
 const PEER_PREFIX = 'cc-room-v1-';
 
+// Each game plays exactly 60 randomly chosen questions from the master bank
+export const GAME_DECK_SIZE = 60;
+
 // Robust ICE configuration including STUN and free TURN relays for cross-network connectivity
 const ICE_CONFIG = {
   iceServers: [
@@ -119,8 +122,8 @@ export class RoomPeerManager {
           currentCardIndex: 0,
           currentPlayerIndex: 0,
           currentCard: null,
-          totalCards: comfortCards.length,
-          cardsRemaining: comfortCards.length
+          totalCards: GAME_DECK_SIZE,
+          cardsRemaining: GAME_DECK_SIZE
         };
 
         this._setupHostListeners();
@@ -186,11 +189,6 @@ export class RoomPeerManager {
         conn.send({ type: 'JOIN_ACCEPTED', roomState: this.roomState });
         this._broadcastState();
         if (this.onToast) this.onToast(`${name} joined the room.`);
-        break;
-      }
-
-      case 'NEXT_QUESTION': {
-        this.nextQuestion();
         break;
       }
 
@@ -333,26 +331,25 @@ export class RoomPeerManager {
       throw new Error('Need at least 1 player to start the game.');
     }
 
-    const shuffled = shuffleCards(comfortCards);
-    this.roomState.deck = shuffled;
+    // Randomly select exactly GAME_DECK_SIZE (60) questions from the master bank
+    const gameDeck = shuffleCards(comfortCards).slice(0, GAME_DECK_SIZE);
+    this.roomState.deck = gameDeck;
     this.roomState.currentCardIndex = 0;
     this.roomState.currentPlayerIndex = 0;
-    this.roomState.currentCard = shuffled[0];
-    this.roomState.cardsRemaining = shuffled.length;
-    this.roomState.totalCards = shuffled.length;
+    this.roomState.currentCard = gameDeck[0];
+    this.roomState.cardsRemaining = gameDeck.length;
+    this.roomState.totalCards = gameDeck.length;
     this.roomState.status = 'PLAYING';
 
     this._broadcastState();
   }
 
   /**
-   * Advance to next question (called by host or requested by active player)
+   * Advance to next question (HOST ONLY)
    */
   nextQuestion() {
+    // Strictly enforce host-only question progression in game logic
     if (!this.isHost) {
-      if (this.hostConnection) {
-        this.hostConnection.send({ type: 'NEXT_QUESTION' });
-      }
       return;
     }
 
@@ -378,18 +375,19 @@ export class RoomPeerManager {
   }
 
   /**
-   * Play again with reshuffled deck
+   * Play again with a fresh random 60-card deck (HOST ONLY)
    */
   playAgain() {
     if (!this.isHost || !this.roomState) return;
 
-    const shuffled = shuffleCards(comfortCards);
-    this.roomState.deck = shuffled;
+    // Generate fresh random 60 cards from 120 master bank
+    const gameDeck = shuffleCards(comfortCards).slice(0, GAME_DECK_SIZE);
+    this.roomState.deck = gameDeck;
     this.roomState.currentCardIndex = 0;
     this.roomState.currentPlayerIndex = 0;
-    this.roomState.currentCard = shuffled[0];
-    this.roomState.cardsRemaining = shuffled.length;
-    this.roomState.totalCards = shuffled.length;
+    this.roomState.currentCard = gameDeck[0];
+    this.roomState.cardsRemaining = gameDeck.length;
+    this.roomState.totalCards = gameDeck.length;
     this.roomState.status = 'PLAYING';
 
     this._broadcastState();

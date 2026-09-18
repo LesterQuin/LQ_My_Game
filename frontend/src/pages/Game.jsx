@@ -46,9 +46,12 @@ export function Game({
 
   const currentPlayer = players[currentPlayerIndex] || players[0];
   const isMyTurn = currentPlayer?.playerId === playerId;
-  const isHost = roomState.hostPlayerId === playerId;
+  const isHost = !roomState.hostPlayerId || roomState.hostPlayerId === playerId || players.length <= 1;
 
   const handleNext = async () => {
+    // Strictly enforce host-only permission
+    if (!isHost) return;
+
     try {
       setLoading(true);
       setShowSampleModal(false);
@@ -208,7 +211,7 @@ export function Game({
               <span>{categoryName}</span>
             </div>
             <div className="card-num-badge">
-              Card {currentCardIndex + 1} of {totalCards}
+              Question {currentCardIndex + 1} of {totalCards}
             </div>
           </div>
 
@@ -268,25 +271,52 @@ export function Game({
         </div>
       </div>
 
-      {/* Card Controls: NEXT QUESTION */}
+      {/* Card Controls: NEXT QUESTION (HOST ONLY) */}
       <div style={{ marginBottom: '2rem' }}>
-        <button
-          onClick={handleNext}
-          disabled={loading}
-          className="btn btn-primary"
-          style={{
-            fontSize: '1.05rem',
-            padding: '0.95rem 2.25rem',
-            boxShadow: '0 6px 20px rgba(217, 107, 67, 0.28)'
-          }}
-        >
-          <span>NEXT QUESTION</span>
-          <ArrowRight size={18} />
-        </button>
-
-        <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-          Cards remaining in deck: <strong>{cardsRemaining}</strong>
-        </div>
+        {isHost ? (
+          <div>
+            <button
+              onClick={handleNext}
+              disabled={loading}
+              className="btn btn-primary"
+              style={{
+                fontSize: '1.05rem',
+                padding: '0.95rem 2.25rem',
+                boxShadow: '0 6px 20px rgba(217, 107, 67, 0.28)'
+              }}
+            >
+              <span>Next Question</span>
+              <ArrowRight size={18} />
+            </button>
+            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
+              Cards remaining in deck: <strong>{cardsRemaining}</strong>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div
+              style={{
+                backgroundColor: 'var(--bg-card)',
+                border: '1.5px dashed var(--accent-border)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '1.1rem 1.5rem',
+                maxWidth: '440px',
+                margin: '0 auto',
+                color: 'var(--text-muted)',
+                fontSize: '0.92rem',
+                lineHeight: 1.5
+              }}
+            >
+              <div style={{ fontWeight: 600, color: 'var(--text-main)', marginBottom: '0.25rem', fontSize: '1rem' }}>
+                Waiting for the host...
+              </div>
+              <div>The host will move to the next question when everyone is ready.</div>
+            </div>
+            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
+              Cards remaining in deck: <strong>{cardsRemaining}</strong>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Connected Players Roster */}

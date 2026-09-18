@@ -243,8 +243,7 @@ export function SampleAnswerModal({
                 marginBottom: '1.5rem'
               }}
             >
-              <p>This is only an example to spark thoughts.</p>
-              <p>There is no right or wrong answer.</p>
+              <p>Example answer — there is no right or wrong answer.</p>
             </div>
 
             {/* Actions */}

@@ -21,7 +21,7 @@ import { cleanExpiredRooms } from '../utils/roomCleanup.js';
 console.log('--- Running Comfort Cards Backend Flow Tests ---');
 
 // 1. Check card deck
-assert.strictEqual(comfortCards.length, 60, 'Deck must contain exactly 60 original questions');
+assert.strictEqual(comfortCards.length, 120, 'Deck must contain exactly 120 questions');
 console.log('✓ Verified 60 original questions');
 
 // 2. Test sanitization

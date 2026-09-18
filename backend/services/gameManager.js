@@ -29,7 +29,7 @@ export function startGame(roomCode, playerId) {
   }
 
   // Shuffle 60 original questions
-  const shuffledDeck = shuffleArray(comfortCards);
+  const shuffledDeck = shuffleArray(comfortCards).slice(0, 60);
 
   room.deck = shuffledDeck;
   room.currentCardIndex = 0;
@@ -194,7 +194,7 @@ export function playAgain(roomCode, playerId) {
   }
 
   // Reshuffle deck
-  const shuffledDeck = shuffleArray(comfortCards);
+  const shuffledDeck = shuffleArray(comfortCards).slice(0, 60);
 
   room.deck = shuffledDeck;
   room.currentCardIndex = 0;
