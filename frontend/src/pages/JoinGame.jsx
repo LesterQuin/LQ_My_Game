@@ -99,7 +99,7 @@ export function JoinGame({ onJoinRoom }) {
             id="player-name-input"
             type="text"
             className="input-field"
-            placeholder="e.g. Claire"
+            placeholder="e.g. Ace"
             value={name}
             onChange={(e) => {
               setName(e.target.value);

@@ -12,6 +12,10 @@ const ICE_CONFIG = {
   iceServers: [
     { urls: 'stun:stun.l.google.com:19302' },
     { urls: 'stun:stun1.l.google.com:19302' },
+    { urls: 'stun:stun2.l.google.com:19302' },
+    { urls: 'stun:stun3.l.google.com:19302' },
+    { urls: 'stun:stun4.l.google.com:19302' },
+    { urls: 'stun:global.stun.twilio.com:3478' },
     { urls: 'stun:openrelay.metered.ca:80' },
     {
       urls: 'turn:openrelay.metered.ca:80',
@@ -243,7 +247,7 @@ export class RoomPeerManager {
           this.destroy();
           reject(new Error('Connection timed out. Please check the room code and ensure the host is still in the room.'));
         }
-      }, 15000);
+      }, 25000);
 
       this.peer = new Peer({
         debug: 1,
@@ -255,6 +259,29 @@ export class RoomPeerManager {
         const conn = this.peer.connect(hostPeerId, { reliable: true });
 
         this.hostConnection = conn;
+
+        // Monitor WebRTC connection failures
+        const checkPeerConnection = () => {
+          if (conn.peerConnection) {
+            conn.peerConnection.addEventListener('iceconnectionstatechange', () => {
+              const state = conn.peerConnection?.iceConnectionState;
+              if (state === 'failed') {
+                if (!isSettled) {
+                  isSettled = true;
+                  clearTimeout(timeout);
+                  this.destroy();
+                  reject(new Error('Network firewall blocked direct connection. Please ensure the host is online or try another network.'));
+                }
+              }
+            });
+          }
+        };
+
+        if (conn.peerConnection) {
+          checkPeerConnection();
+        } else {
+          setTimeout(checkPeerConnection, 200);
+        }
 
         conn.on('open', () => {
           conn.send({
