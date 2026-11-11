@@ -16,7 +16,10 @@ function RoomRoute({
   leaveRoom,
   startGame,
   nextQuestion,
-  playAgain
+  playAgain,
+  reactions,
+  sendReaction,
+  setDeckSize
 }) {
   const { roomCode } = useParams();
   const navigate = useNavigate();
@@ -48,6 +51,7 @@ function RoomRoute({
         playerId={playerId}
         onStartGame={startGame}
         onLeaveRoom={handleLeave}
+        onSetDeckSize={setDeckSize}
       />
     );
   }
@@ -59,6 +63,8 @@ function RoomRoute({
       onNextQuestion={nextQuestion}
       onPlayAgain={playAgain}
       onLeaveRoom={handleLeave}
+      reactions={reactions}
+      onSendReaction={sendReaction}
     />
   );
 }
@@ -67,12 +73,15 @@ function MainApp() {
   const {
     roomState,
     toastMessage,
+    reactions,
     createRoom,
     joinRoom,
     leaveRoom,
     startGame,
     nextQuestion,
-    playAgain
+    playAgain,
+    sendReaction,
+    setDeckSize
   } = useGameSocket();
 
   const { playerId } = getSessionData();
@@ -103,6 +112,9 @@ function MainApp() {
                 startGame={startGame}
                 nextQuestion={nextQuestion}
                 playAgain={playAgain}
+                reactions={reactions}
+                sendReaction={sendReaction}
+                setDeckSize={setDeckSize}
               />
             }
           />

@@ -48,6 +48,7 @@ export class RoomPeerManager {
     this.onStateChange = null;
     this.onError = null;
     this.onToast = null;
+    this.onReaction = null;
   }
 
   /**
@@ -65,7 +66,7 @@ export class RoomPeerManager {
   /**
    * Host creates a room
    */
-  async createRoom({ name, maxPlayers = 6, onStateChange, onError, onToast }) {
+  async createRoom({ name, maxPlayers = 6, deckSize = 30, onStateChange, onError, onToast, onReaction }) {
     this.destroy(); // Clean any previous connection/listeners
     this.isHost = true;
     this.playerName = name;
@@ -73,6 +74,7 @@ export class RoomPeerManager {
     this.onStateChange = onStateChange;
     this.onError = onError;
     this.onToast = onToast;
+    this.onReaction = onReaction;
 
     let attempts = 0;
     let created = false;
@@ -83,7 +85,7 @@ export class RoomPeerManager {
       const peerId = `${PEER_PREFIX}${code.toLowerCase()}`;
 
       try {
-        await this._initHostPeer(peerId, code, name, maxPlayers);
+        await this._initHostPeer(peerId, code, name, maxPlayers, deckSize);
         created = true;
         this.roomCode = code;
       } catch (err) {
@@ -100,7 +102,9 @@ export class RoomPeerManager {
     };
   }
 
-  _initHostPeer(peerId, code, hostName, maxPlayers) {
+  _initHostPeer(peerId, code, hostName, maxPlayers, deckSize = 30) {
+    const validDeckSize = [15, 30, 60].includes(Number(deckSize)) ? Number(deckSize) : 30;
+
     return new Promise((resolve, reject) => {
       this.peer = new Peer(peerId, {
         debug: 1,
@@ -112,6 +116,7 @@ export class RoomPeerManager {
         this.roomState = {
           roomCode: code,
           maxPlayers: Math.min(8, Math.max(2, maxPlayers)),
+          deckSize: validDeckSize,
           status: 'LOBBY',
           hostPlayerId: this.playerId,
           players: [
@@ -126,8 +131,8 @@ export class RoomPeerManager {
           currentCardIndex: 0,
           currentPlayerIndex: 0,
           currentCard: null,
-          totalCards: GAME_DECK_SIZE,
-          cardsRemaining: GAME_DECK_SIZE
+          totalCards: validDeckSize,
+          cardsRemaining: validDeckSize
         };
 
         this._setupHostListeners();
@@ -201,6 +206,25 @@ export class RoomPeerManager {
         break;
       }
 
+      case 'REACTION': {
+        this._broadcastReaction({
+          id: `rx_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          emoji: msg.emoji,
+          senderName: msg.senderName || 'A friend',
+          x: Math.floor(Math.random() * 60) + 20
+        });
+        break;
+      }
+
+      case 'SET_DECK_SIZE': {
+        const size = [15, 30, 60].includes(Number(msg.deckSize)) ? Number(msg.deckSize) : 30;
+        this.roomState.deckSize = size;
+        this.roomState.totalCards = size;
+        this.roomState.cardsRemaining = size;
+        this._broadcastState();
+        break;
+      }
+
       default:
         break;
     }
@@ -228,7 +252,7 @@ export class RoomPeerManager {
   /**
    * Guest joins an existing room
    */
-  async joinRoom({ roomCode, name, playerId, onStateChange, onError, onToast }) {
+  async joinRoom({ roomCode, name, playerId, onStateChange, onError, onToast, onReaction }) {
     this.destroy(); // Clean any previous connection/listeners
     this.isHost = false;
     this.roomCode = roomCode.toUpperCase();
@@ -237,6 +261,7 @@ export class RoomPeerManager {
     this.onStateChange = onStateChange;
     this.onError = onError;
     this.onToast = onToast;
+    this.onReaction = onReaction;
 
     return new Promise((resolve, reject) => {
       let isSettled = false;
@@ -314,6 +339,10 @@ export class RoomPeerManager {
           } else if (data.type === 'ROOM_STATE') {
             this.roomState = data.roomState;
             this._notifyState();
+          } else if (data.type === 'REACTION') {
+            if (this.onReaction && data.reaction) {
+              this.onReaction(data.reaction);
+            }
           }
         });
 
@@ -349,6 +378,56 @@ export class RoomPeerManager {
   }
 
   /**
+   * Change deck size in lobby (HOST ONLY or forwarded from guest)
+   */
+  setDeckSize(deckSize) {
+    const validSize = [15, 30, 60].includes(Number(deckSize)) ? Number(deckSize) : 30;
+    if (this.isHost && this.roomState) {
+      this.roomState.deckSize = validSize;
+      this.roomState.totalCards = validSize;
+      this.roomState.cardsRemaining = validSize;
+      this._broadcastState();
+    } else if (this.hostConnection && this.hostConnection.open) {
+      this.hostConnection.send({ type: 'SET_DECK_SIZE', deckSize: validSize });
+    }
+  }
+
+  /**
+   * Send floating reaction
+   */
+  sendReaction(emoji) {
+    const rx = {
+      id: `rx_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      emoji,
+      senderName: this.playerName || 'A friend',
+      x: Math.floor(Math.random() * 60) + 20
+    };
+
+    if (this.isHost) {
+      this._broadcastReaction(rx);
+    } else if (this.hostConnection && this.hostConnection.open) {
+      // Instant local display for responsiveness
+      if (this.onReaction) this.onReaction(rx);
+      this.hostConnection.send({
+        type: 'REACTION',
+        emoji,
+        senderName: this.playerName
+      });
+    }
+  }
+
+  _broadcastReaction(rx) {
+    if (this.onReaction) this.onReaction(rx);
+    for (const conn of this.connections.values()) {
+      try {
+        if (conn.open) {
+          conn.send({ type: 'REACTION', reaction: rx });
+        }
+      } catch (e) {}
+    }
+  }
+
+  /**
    * Host starts the game
    */
   startGame() {
@@ -358,8 +437,8 @@ export class RoomPeerManager {
       throw new Error('Need at least 1 player to start the game.');
     }
 
-    // Randomly select exactly GAME_DECK_SIZE (60) questions from the master bank
-    const gameDeck = shuffleCards(comfortCards).slice(0, GAME_DECK_SIZE);
+    const targetDeckSize = this.roomState.deckSize || 30;
+    const gameDeck = shuffleCards(comfortCards).slice(0, targetDeckSize);
     this.roomState.deck = gameDeck;
     this.roomState.currentCardIndex = 0;
     this.roomState.currentPlayerIndex = 0;
@@ -402,13 +481,13 @@ export class RoomPeerManager {
   }
 
   /**
-   * Play again with a fresh random 60-card deck (HOST ONLY)
+   * Play again with a fresh random deck of chosen size (HOST ONLY)
    */
   playAgain() {
     if (!this.isHost || !this.roomState) return;
 
-    // Generate fresh random 60 cards from 120 master bank
-    const gameDeck = shuffleCards(comfortCards).slice(0, GAME_DECK_SIZE);
+    const targetDeckSize = this.roomState.deckSize || 30;
+    const gameDeck = shuffleCards(comfortCards).slice(0, targetDeckSize);
     this.roomState.deck = gameDeck;
     this.roomState.currentCardIndex = 0;
     this.roomState.currentPlayerIndex = 0;

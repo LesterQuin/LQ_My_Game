@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Copy, Check, Play, LogOut, Users, Share2, Crown } from 'lucide-react';
+import { Copy, Check, Play, LogOut, Users, Share2, Crown, QrCode, Sparkles } from 'lucide-react';
 import { copyToClipboard } from '../utils/clipboard.js';
 
-export function Lobby({ roomState, playerId, onStartGame, onLeaveRoom }) {
+export function Lobby({ roomState, playerId, onStartGame, onLeaveRoom, onSetDeckSize }) {
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [showQR, setShowQR] = useState(false);
   const [starting, setStarting] = useState(false);
 
   if (!roomState) return null;
@@ -12,6 +13,13 @@ export function Lobby({ roomState, playerId, onStartGame, onLeaveRoom }) {
   const isHost = roomState.hostPlayerId === playerId;
   const hostPlayer = roomState.players.find((p) => p.isHost) || roomState.players[0];
   const inviteUrl = `${window.location.origin}${window.location.pathname}#/join/${roomState.roomCode}`;
+  const currentDeckSize = roomState.deckSize || 30;
+
+  const deckOptions = [
+    { size: 15, label: '15 Cards', desc: 'Quick (~15m)' },
+    { size: 30, label: '30 Cards', desc: 'Standard (~35m)' },
+    { size: 60, label: '60 Cards', desc: 'Deep Dive (~1h)' }
+  ];
 
   const currentCount = roomState.players.length;
   const maxCount = roomState.maxPlayers || 6;
@@ -82,29 +90,116 @@ export function Lobby({ roomState, playerId, onStartGame, onLeaveRoom }) {
       <div
         style={{
           display: 'flex',
-          gap: '0.75rem',
+          gap: '0.6rem',
           justifyContent: 'center',
-          marginBottom: '1.75rem',
+          marginBottom: '1.25rem',
           flexWrap: 'wrap'
         }}
       >
         <button
           onClick={handleCopyCode}
           className="btn btn-outline"
-          style={{ fontSize: '0.875rem', padding: '0.55rem 1.15rem' }}
+          style={{ fontSize: '0.875rem', padding: '0.55rem 1rem' }}
         >
           {copiedCode ? <Check size={16} color="var(--accent-sage)" /> : <Copy size={16} />}
-          <span>{copiedCode ? 'Code Copied!' : 'Copy Room Code'}</span>
+          <span>{copiedCode ? 'Copied!' : 'Copy Code'}</span>
         </button>
 
         <button
           onClick={handleCopyLink}
           className="btn btn-secondary"
-          style={{ fontSize: '0.875rem', padding: '0.55rem 1.15rem' }}
+          style={{ fontSize: '0.875rem', padding: '0.55rem 1rem' }}
         >
           {copiedLink ? <Check size={16} color="var(--accent-sage)" /> : <Share2 size={16} />}
-          <span>{copiedLink ? 'Link Copied!' : 'Copy Invite Link'}</span>
+          <span>{copiedLink ? 'Link Copied!' : 'Copy Link'}</span>
         </button>
+
+        <button
+          onClick={() => setShowQR((prev) => !prev)}
+          className={`btn ${showQR ? 'btn-primary' : 'btn-outline'}`}
+          style={{ fontSize: '0.875rem', padding: '0.55rem 1rem' }}
+        >
+          <QrCode size={16} />
+          <span>{showQR ? 'Hide QR' : 'Scan QR'}</span>
+        </button>
+      </div>
+
+      {/* QR Code Scannable Card */}
+      {showQR && (
+        <div className="qr-card-box">
+          <div className="qr-image-wrapper">
+            <img
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(inviteUrl)}&color=2D2926&bgcolor=FFFDF9&margin=6`}
+              alt={`QR code to join room ${roomState.roomCode}`}
+            />
+          </div>
+          <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '0.2rem' }}>
+            Scan with your phone camera
+          </div>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+            Jump into room {roomState.roomCode} instantly
+          </div>
+        </div>
+      )}
+
+      {/* Deck Length Selector in Lobby */}
+      <div
+        style={{
+          background: 'var(--bg-canvas)',
+          border: '1px solid var(--accent-border)',
+          borderRadius: 'var(--radius-md)',
+          padding: '0.85rem 1rem',
+          marginBottom: '1.5rem',
+          textAlign: 'left'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: isHost ? '0.6rem' : '0'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-main)' }}>
+            <Sparkles size={15} color="var(--accent-terracotta)" />
+            <span>Deck Length</span>
+          </div>
+          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--accent-terracotta)' }}>
+            {currentDeckSize} Questions
+          </span>
+        </div>
+
+        {isHost ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.4rem' }}>
+            {deckOptions.map((opt) => {
+              const isSelected = currentDeckSize === opt.size;
+              return (
+                <button
+                  key={opt.size}
+                  type="button"
+                  onClick={() => onSetDeckSize && onSetDeckSize(opt.size)}
+                  className={`btn ${isSelected ? 'btn-primary' : 'btn-outline'}`}
+                  style={{
+                    padding: '0.45rem 0.2rem',
+                    fontSize: '0.8rem',
+                    borderRadius: 'var(--radius-sm)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                  }}
+                >
+                  <span style={{ fontWeight: 700 }}>{opt.label}</span>
+                  <span style={{ fontSize: '0.68rem', opacity: isSelected ? 0.9 : 0.7 }}>{opt.desc}</span>
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            The host set this game to <strong>{currentDeckSize} questions</strong>.
+          </div>
+        )}
       </div>
 
       {/* Players Slot List */}

@@ -11,6 +11,14 @@ export function useGameSocket() {
   const [roomState, setRoomState] = useState(null);
   const [error, setError] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
+  const [reactions, setReactions] = useState([]);
+
+  const addReaction = useCallback((reaction) => {
+    setReactions((prev) => [...prev.slice(-15), reaction]);
+    setTimeout(() => {
+      setReactions((prev) => prev.filter((r) => r.id !== reaction.id));
+    }, 2800);
+  }, []);
 
   const showToast = useCallback((msg, type = 'info') => {
     setToastMessage({ message: msg, type });
@@ -20,17 +28,19 @@ export function useGameSocket() {
   }, []);
 
   const createRoom = useCallback(
-    async ({ name, maxPlayers = 6 }) => {
+    async ({ name, maxPlayers = 6, deckSize = 30 }) => {
       try {
         const res = await peerManager.createRoom({
           name,
           maxPlayers,
+          deckSize,
           onStateChange: (state) => setRoomState(state),
           onError: (err) => {
             setError(err);
             showToast(err, 'error');
           },
-          onToast: (msg) => showToast(msg)
+          onToast: (msg) => showToast(msg),
+          onReaction: (rx) => addReaction(rx)
         });
 
         saveSessionData({
@@ -45,7 +55,7 @@ export function useGameSocket() {
         throw err;
       }
     },
-    [showToast]
+    [showToast, addReaction]
   );
 
   const joinRoom = useCallback(
@@ -61,7 +71,8 @@ export function useGameSocket() {
             setError(err);
             showToast(err, 'error');
           },
-          onToast: (msg) => showToast(msg)
+          onToast: (msg) => showToast(msg),
+          onReaction: (rx) => addReaction(rx)
         });
 
         saveSessionData({
@@ -76,13 +87,14 @@ export function useGameSocket() {
         throw err;
       }
     },
-    [showToast]
+    [showToast, addReaction]
   );
 
   const leaveRoom = useCallback(async () => {
     peerManager.destroy();
     clearSessionRoom();
     setRoomState(null);
+    setReactions([]);
   }, []);
 
   const startGame = useCallback(async () => {
@@ -102,16 +114,27 @@ export function useGameSocket() {
     peerManager.playAgain();
   }, []);
 
+  const sendReaction = useCallback((emoji) => {
+    peerManager.sendReaction(emoji);
+  }, []);
+
+  const setDeckSize = useCallback((deckSize) => {
+    peerManager.setDeckSize(deckSize);
+  }, []);
+
   return {
     roomState,
     error,
     toastMessage,
     showToast,
+    reactions,
     createRoom,
     joinRoom,
     leaveRoom,
     startGame,
     nextQuestion,
-    playAgain
+    playAgain,
+    sendReaction,
+    setDeckSize
   };
 }

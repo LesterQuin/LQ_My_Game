@@ -3,13 +3,16 @@ import confetti from 'canvas-confetti';
 import { Sparkles, RotateCcw, Home as HomeIcon, Heart, ArrowRight, MessageCircle, Lightbulb } from 'lucide-react';
 import { PlayerList } from '../components/PlayerList.jsx';
 import { SampleAnswerModal } from '../components/SampleAnswerModal.jsx';
+import { FloatingReactions } from '../components/FloatingReactions.jsx';
 
 export function Game({
   roomState,
   playerId,
   onNextQuestion,
   onPlayAgain,
-  onLeaveRoom
+  onLeaveRoom,
+  reactions = [],
+  onSendReaction
 }) {
   const [loading, setLoading] = useState(false);
   const [showSampleModal, setShowSampleModal] = useState(false);
@@ -99,7 +102,7 @@ export function Game({
         </h2>
 
         <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', marginBottom: '2rem', lineHeight: 1.6 }}>
-          You made it through all 60 cards together. Thank you for holding space and sharing your thoughts.
+          You made it through all {totalCards} cards together. Thank you for holding space and sharing your thoughts.
         </p>
 
         <div
@@ -318,6 +321,12 @@ export function Game({
           </div>
         )}
       </div>
+
+      {/* Live Floating Reactions (Silent Encouragement) */}
+      <FloatingReactions
+        reactions={reactions}
+        onSendReaction={onSendReaction}
+      />
 
       {/* Connected Players Roster */}
       <div style={{ borderTop: '1px solid var(--accent-border)', paddingTop: '1.5rem' }}>

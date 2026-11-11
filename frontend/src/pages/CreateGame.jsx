@@ -5,11 +5,17 @@ import { ArrowLeft, Sparkles, Users } from 'lucide-react';
 export function CreateGame({ onCreateRoom }) {
   const [name, setName] = useState('');
   const [maxPlayers, setMaxPlayers] = useState(6);
+  const [deckSize, setDeckSize] = useState(30);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const playerOptions = [2, 3, 4, 5, 6, 7, 8];
+  const deckOptions = [
+    { size: 15, label: '15 Cards', desc: 'Quick (~15m)' },
+    { size: 30, label: '30 Cards', desc: 'Standard (~35m)' },
+    { size: 60, label: '60 Cards', desc: 'Deep Dive (~1h)' }
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +34,7 @@ export function CreateGame({ onCreateRoom }) {
     try {
       setLoading(true);
       setError('');
-      const res = await onCreateRoom({ name: trimmed, maxPlayers });
+      const res = await onCreateRoom({ name: trimmed, maxPlayers, deckSize });
       navigate(`/room/${res.roomCode}`);
     } catch (err) {
       setError(err.message || 'Failed to create room.');
@@ -115,6 +121,47 @@ export function CreateGame({ onCreateRoom }) {
           </div>
           <div style={{ fontSize: '0.8rem', color: 'var(--text-light)', marginTop: '0.5rem', textAlign: 'center' }}>
             Choose between 2 to 8 players.
+          </div>
+        </div>
+
+        {/* Deck Length Selector: 15, 30, 60 */}
+        <div className="input-group" style={{ marginTop: '1.5rem' }}>
+          <label className="input-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <Sparkles size={16} />
+            <span>Deck Length ({deckSize} Questions)</span>
+          </label>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '0.6rem',
+              marginTop: '0.5rem'
+            }}
+          >
+            {deckOptions.map((opt) => {
+              const isSelected = deckSize === opt.size;
+              return (
+                <button
+                  key={opt.size}
+                  type="button"
+                  onClick={() => setDeckSize(opt.size)}
+                  disabled={loading}
+                  className={`btn ${isSelected ? 'btn-primary' : 'btn-outline'}`}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0.75rem 0.25rem',
+                    borderRadius: 'var(--radius-md)',
+                    gap: '0.2rem'
+                  }}
+                >
+                  <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>{opt.label}</span>
+                  <span style={{ fontSize: '0.72rem', opacity: isSelected ? 0.9 : 0.7 }}>{opt.desc}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
