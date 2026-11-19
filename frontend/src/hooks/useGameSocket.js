@@ -28,12 +28,24 @@ export function useGameSocket() {
   }, []);
 
   const createRoom = useCallback(
-    async ({ name, maxPlayers = 6, deckSize = 30 }) => {
+    async ({
+      name,
+      maxPlayers = 6,
+      gameType = 'CARDS',
+      deckSize = 30,
+      totalRounds = 5,
+      roundDuration = 60,
+      selectedCategory = 'ALL'
+    }) => {
       try {
         const res = await peerManager.createRoom({
           name,
           maxPlayers,
+          gameType,
           deckSize,
+          totalRounds,
+          roundDuration,
+          selectedCategory,
           onStateChange: (state) => setRoomState(state),
           onError: (err) => {
             setError(err);
@@ -99,20 +111,28 @@ export function useGameSocket() {
 
   const startGame = useCallback(async () => {
     try {
-      peerManager.startGame();
+      if (roomState?.gameType === 'DRAW_AND_GUESS') {
+        peerManager.startDrawGame();
+      } else {
+        peerManager.startGame();
+      }
     } catch (err) {
       showToast(err.message, 'error');
       throw err;
     }
-  }, [showToast]);
+  }, [roomState?.gameType, showToast]);
 
   const nextQuestion = useCallback(async () => {
     peerManager.nextQuestion();
   }, []);
 
   const playAgain = useCallback(async () => {
-    peerManager.playAgain();
-  }, []);
+    if (roomState?.gameType === 'DRAW_AND_GUESS') {
+      peerManager.playAgainDrawGame();
+    } else {
+      peerManager.playAgain();
+    }
+  }, [roomState?.gameType]);
 
   const sendReaction = useCallback((emoji) => {
     peerManager.sendReaction(emoji);
@@ -120,6 +140,46 @@ export function useGameSocket() {
 
   const setDeckSize = useCallback((deckSize) => {
     peerManager.setDeckSize(deckSize);
+  }, []);
+
+  const setGameType = useCallback((gameType) => {
+    peerManager.setGameType(gameType);
+  }, []);
+
+  const setRounds = useCallback((rounds) => {
+    peerManager.setRounds(rounds);
+  }, []);
+
+  const setRoundDuration = useCallback((duration) => {
+    peerManager.setRoundDuration(duration);
+  }, []);
+
+  const setCategory = useCallback((category) => {
+    peerManager.setCategory(category);
+  }, []);
+
+  const selectWord = useCallback((word) => {
+    peerManager.selectWord(word);
+  }, []);
+
+  const sendDrawSegment = useCallback((segment) => {
+    peerManager.sendDrawSegment(segment);
+  }, []);
+
+  const clearCanvas = useCallback(() => {
+    peerManager.clearCanvas();
+  }, []);
+
+  const undoStroke = useCallback(() => {
+    peerManager.undoStroke();
+  }, []);
+
+  const submitGuess = useCallback((guess) => {
+    peerManager.submitGuess(guess);
+  }, []);
+
+  const giveHint = useCallback(() => {
+    peerManager.giveHint();
   }, []);
 
   return {
@@ -135,6 +195,16 @@ export function useGameSocket() {
     nextQuestion,
     playAgain,
     sendReaction,
-    setDeckSize
+    setDeckSize,
+    setGameType,
+    setRounds,
+    setRoundDuration,
+    setCategory,
+    selectWord,
+    sendDrawSegment,
+    clearCanvas,
+    undoStroke,
+    submitGuess,
+    giveHint
   };
 }

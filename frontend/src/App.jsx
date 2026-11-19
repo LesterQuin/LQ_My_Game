@@ -7,6 +7,8 @@ import { CreateGame } from './pages/CreateGame.jsx';
 import { JoinGame } from './pages/JoinGame.jsx';
 import { Lobby } from './pages/Lobby.jsx';
 import { Game } from './pages/Game.jsx';
+import { DrawGame } from './pages/DrawGame.jsx';
+import { TicTacToe } from './pages/TicTacToe.jsx';
 import { useGameSocket } from './hooks/useGameSocket.js';
 import { getSessionData } from './utils/session.js';
 
@@ -19,14 +21,22 @@ function RoomRoute({
   playAgain,
   reactions,
   sendReaction,
-  setDeckSize
+  setDeckSize,
+  setRounds,
+  setRoundDuration,
+  setCategory,
+  selectWord,
+  sendDrawSegment,
+  clearCanvas,
+  undoStroke,
+  submitGuess,
+  giveHint
 }) {
   const { roomCode } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!roomState && roomCode) {
-      // If room state isn't loaded (e.g. direct link), redirect to join page
       navigate(`/join/${roomCode}`);
     }
   }, [roomState, roomCode, navigate]);
@@ -52,10 +62,32 @@ function RoomRoute({
         onStartGame={startGame}
         onLeaveRoom={handleLeave}
         onSetDeckSize={setDeckSize}
+        onSetRounds={setRounds}
+        onSetRoundDuration={setRoundDuration}
+        onSetCategory={setCategory}
       />
     );
   }
 
+  // Draw & Guess game mode
+  if (roomState.gameType === 'DRAW_AND_GUESS') {
+    return (
+      <DrawGame
+        roomState={roomState}
+        playerId={playerId}
+        onSelectWord={selectWord}
+        onDrawSegment={sendDrawSegment}
+        onClearCanvas={clearCanvas}
+        onUndoStroke={undoStroke}
+        onSubmitGuess={submitGuess}
+        onGiveHint={giveHint}
+        onPlayAgain={playAgain}
+        onLeaveRoom={handleLeave}
+      />
+    );
+  }
+
+  // Comfort Cards conversation game mode
   return (
     <Game
       roomState={roomState}
@@ -81,7 +113,16 @@ function MainApp() {
     nextQuestion,
     playAgain,
     sendReaction,
-    setDeckSize
+    setDeckSize,
+    setRounds,
+    setRoundDuration,
+    setCategory,
+    selectWord,
+    sendDrawSegment,
+    clearCanvas,
+    undoStroke,
+    submitGuess,
+    giveHint
   } = useGameSocket();
 
   const { playerId } = getSessionData();
@@ -94,12 +135,13 @@ function MainApp() {
 
   return (
     <div className="app-container">
-      <Header roomCode={roomState?.roomCode} onLeave={handleLeave} />
+      <Header roomCode={roomState?.roomCode} gameType={roomState?.gameType} onLeave={handleLeave} />
 
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<CreateGame onCreateRoom={createRoom} />} />
+          <Route path="/tictactoe" element={<TicTacToe />} />
           <Route path="/join" element={<JoinGame onJoinRoom={joinRoom} />} />
           <Route path="/join/:initialCode" element={<JoinGame onJoinRoom={joinRoom} />} />
           <Route
@@ -115,6 +157,15 @@ function MainApp() {
                 reactions={reactions}
                 sendReaction={sendReaction}
                 setDeckSize={setDeckSize}
+                setRounds={setRounds}
+                setRoundDuration={setRoundDuration}
+                setCategory={setCategory}
+                selectWord={selectWord}
+                sendDrawSegment={sendDrawSegment}
+                clearCanvas={clearCanvas}
+                undoStroke={undoStroke}
+                submitGuess={submitGuess}
+                giveHint={giveHint}
               />
             }
           />
