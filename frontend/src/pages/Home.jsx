@@ -3,12 +3,6 @@ import { Link } from 'react-router-dom';
 import { Sparkles, Users, Edit3, MessageCircle, Heart, ArrowRight, Grid } from 'lucide-react';
 
 export function Home() {
-  const isLocalhost =
-    typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1' ||
-      window.location.hostname.startsWith('192.168.'));
-
   return (
     <div style={{ width: '100%', maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
       {/* Top Brand Pill */}
@@ -112,39 +106,35 @@ export function Home() {
           </Link>
         </div>
 
-        {/* Game 3: Tic-Tac-Toe (Localhost Testing Only) */}
-        {isLocalhost && (
-          <div className="hub-game-card">
-            <div className="hub-card-header">
-              <div className="hub-game-icon tictac">
-                <Grid size={28} color="#E76F51" />
-              </div>
-              <span className="hub-tag" style={{ background: '#FFF3CD', color: '#856404', borderColor: '#FFEEBA' }}>
-                Local Test • 1v1 / vs AI
-              </span>
+        {/* Game 3: Tic-Tac-Toe */}
+        <div className="hub-game-card">
+          <div className="hub-card-header">
+            <div className="hub-game-icon tictac">
+              <Grid size={28} color="#E76F51" />
             </div>
-
-            <h3 className="hub-game-title">Tic-Tac-Toe</h3>
-            <p className="hub-game-desc">
-              Quick 3x3 strategy! Play with a friend or test your wits against the smart unbeatable AI.
-            </p>
-
-            <Link
-              to="/tictactoe"
-              className="btn btn-primary btn-block"
-              style={{
-                padding: '0.85rem',
-                fontSize: '0.95rem',
-                marginTop: 'auto',
-                backgroundColor: '#E76F51',
-                borderColor: '#E76F51'
-              }}
-            >
-              <span>Play Tic-Tac-Toe</span>
-              <ArrowRight size={16} />
-            </Link>
+            <span className="hub-tag new">1 vs AI / 2 Players</span>
           </div>
-        )}
+
+          <h3 className="hub-game-title">Tic-Tac-Toe</h3>
+          <p className="hub-game-desc">
+            Classic 3x3 strategy! Play online with a friend via link or challenge the smart computer.
+          </p>
+
+          <Link
+            to="/tictactoe"
+            className="btn btn-primary btn-block"
+            style={{
+              padding: '0.85rem',
+              fontSize: '0.95rem',
+              marginTop: 'auto',
+              backgroundColor: '#E76F51',
+              borderColor: '#E76F51'
+            }}
+          >
+            <span>Play Tic-Tac-Toe</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
       </div>
 
       {/* Join Any Game Button */}

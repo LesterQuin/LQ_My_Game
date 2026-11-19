@@ -73,9 +73,10 @@ console.log('✓ Out-of-turn draw prevented by server');
 
 // 8. Correct player draws card
 const { card: drawnCard } = drawCard(roomCode, hostId);
-assert.ok(drawnCard && drawnCard.question, 'Card should have a question');
+assert.ok(drawnCard && (drawnCard.english || drawnCard.tagalog || drawnCard.question), 'Card should have a question');
 assert.strictEqual(room.currentCardState, 'REVEALED');
-console.log('✓ Active player successfully drew card: ' + drawnCard.question.slice(0, 30) + '...');
+const cardPreview = drawnCard.english || drawnCard.question || drawnCard.tagalog;
+console.log('✓ Active player successfully drew card: ' + cardPreview.slice(0, 30) + '...');
 
 // 9. Cannot draw twice
 assert.throws(

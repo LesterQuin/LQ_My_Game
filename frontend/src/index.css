@@ -2277,6 +2277,164 @@ h1, h2, h3, h4, h5, h6 {
   100% { transform: scale(1.06); }
 }
 
+/* Tic-Tac-Toe Online Multiplayer Styles */
+.tictac-online-setup {
+  background: var(--bg-card);
+  border: 1.5px solid var(--accent-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.tictac-code-box {
+  background: var(--bg-canvas);
+  border: 2px dashed #2A9D8F;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tictac-code-text {
+  font-family: monospace;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: 0.25rem;
+  color: #2A9D8F;
+}
+
+.tictac-actions-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tictac-conn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.tictac-conn-pill.connected {
+  background: #E6F4EA;
+  color: #137333;
+  border: 1px solid #A8DAB5;
+}
+
+.tictac-conn-pill.waiting {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FCD34D;
+  animation: pulseWait 1.5s infinite;
+}
+
+@keyframes pulseWait {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+.tictac-join-form {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 340px;
+  margin: 0.75rem auto 0;
+}
+
+/* 5-Second Countdown Banner */
+.tictac-countdown-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #FFFBEB;
+  border: 1.5px solid #FCD34D;
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12);
+  animation: countdownPulse 1s infinite alternate ease-in-out;
+}
+
+@keyframes countdownPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.015); }
+}
+
+.tictac-countdown-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #F59E0B;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.25rem;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.4);
+  flex-shrink: 0;
+}
+
+/* Turn Pop-Up Notification */
+.tictac-turn-popup {
+  position: relative;
+  margin: 0.75rem auto 1rem;
+  max-width: 320px;
+  animation: popupSlideDown 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popupSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tictac-turn-popup-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ECFDF5;
+  border: 2px solid #10B981;
+  border-radius: var(--radius-lg);
+  padding: 0.65rem 1rem;
+  text-align: left;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+}
+
+.tictac-turn-popup-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #10B981;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: bounceRotate 1.2s infinite ease-in-out;
+}
+
+@keyframes bounceRotate {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.15) rotate(10deg); }
+}
+
+
+
 
 
 
