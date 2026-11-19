@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Heart, LogOut, Edit3, Grid, Lock } from 'lucide-react';
+import { Heart, LogOut, Edit3, Grid, Lock, Sparkles } from 'lucide-react';
 import { clearSessionRoom, getSessionData } from '../utils/session.js';
 import { isHostUnlocked, lockHost } from './PasswordGate.jsx';
 
