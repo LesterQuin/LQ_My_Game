@@ -18,6 +18,7 @@ import {
   Clock
 } from 'lucide-react';
 import { TicTacPeerManager } from '../services/tictacPeerService.js';
+import { isHostUnlocked, HostPasscodeModal } from '../components/PasswordGate.jsx';
 
 // Winning combinations for a 3x3 board
 const WINNING_COMBOS = [
@@ -171,6 +172,7 @@ export function TicTacToe() {
   const [onlineMessage, setOnlineMessage] = useState('');
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [showPassModal, setShowPassModal] = useState(false);
 
   const peerManagerRef = useRef(null);
   const countdownIntervalRef = useRef(null);
@@ -425,7 +427,7 @@ export function TicTacToe() {
   };
 
   // Host Online Room (Player 1)
-  const handleCreateOnlineRoom = async () => {
+  const executeCreateOnlineRoom = async () => {
     const finalName = playerName.trim() || 'Player 1';
     const pm = getPeerManager();
     try {
@@ -437,6 +439,14 @@ export function TicTacToe() {
     } catch (err) {
       setOnlineMessage('Failed to create online room. Try again.');
     }
+  };
+
+  const handleCreateOnlineRoom = async () => {
+    if (!isHostUnlocked()) {
+      setShowPassModal(true);
+      return;
+    }
+    await executeCreateOnlineRoom();
   };
 
   // Join Online Room (Player 2)
@@ -1021,6 +1031,16 @@ export function TicTacToe() {
           <span>Reset Scores</span>
         </button>
       </div>
+
+      {/* Host Authorization Passcode Modal */}
+      <HostPasscodeModal
+        isOpen={showPassModal}
+        onClose={() => setShowPassModal(false)}
+        onSuccess={() => {
+          setShowPassModal(false);
+          executeCreateOnlineRoom();
+        }}
+      />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { ArrowLeft, Sparkles, Users, Edit3, MessageCircle, Clock, Tag } from 'lucide-react';
 import { DRAW_CATEGORIES, getCategoryDetails } from '../data/drawWords.js';
+import { isHostUnlocked, HostPasscodeModal } from '../components/PasswordGate.jsx';
 
 export function CreateGame({ onCreateRoom }) {
   const [searchParams] = useSearchParams();
@@ -17,6 +18,7 @@ export function CreateGame({ onCreateRoom }) {
   const selectedCatObj = getCategoryDetails(selectedCategory);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassModal, setShowPassModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,20 +48,8 @@ export function CreateGame({ onCreateRoom }) {
     { sec: 80, label: '80s', desc: 'Relaxed' }
   ];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const executeCreateRoom = async () => {
     const trimmed = name.trim();
-
-    if (!trimmed) {
-      setError('Please enter your nickname.');
-      return;
-    }
-
-    if (trimmed.length > 25) {
-      setError('Nickname must be 25 characters or fewer.');
-      return;
-    }
-
     try {
       setLoading(true);
       setError('');
@@ -78,6 +68,29 @@ export function CreateGame({ onCreateRoom }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const trimmed = name.trim();
+
+    if (!trimmed) {
+      setError('Please enter your nickname.');
+      return;
+    }
+
+    if (trimmed.length > 25) {
+      setError('Nickname must be 25 characters or fewer.');
+      return;
+    }
+
+    // Host passcode required before creating a room (temporary session)
+    if (!isHostUnlocked()) {
+      setShowPassModal(true);
+      return;
+    }
+
+    await executeCreateRoom();
   };
 
   const isDraw = gameType === 'DRAW_AND_GUESS';
@@ -356,6 +369,16 @@ export function CreateGame({ onCreateRoom }) {
           <span>{loading ? 'Creating Room...' : `CREATE ${gameType === 'DRAW_AND_GUESS' ? 'DRAW & GUESS' : 'COMFORT CARDS'} ROOM`}</span>
         </button>
       </form>
+
+      {/* Host Authorization Passcode Modal */}
+      <HostPasscodeModal
+        isOpen={showPassModal}
+        onClose={() => setShowPassModal(false)}
+        onSuccess={() => {
+          setShowPassModal(false);
+          executeCreateRoom();
+        }}
+      />
     </div>
   );
 }
