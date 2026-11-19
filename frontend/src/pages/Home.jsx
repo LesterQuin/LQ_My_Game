@@ -21,7 +21,7 @@ export function Home() {
         }}
       >
         <Sparkles size={16} />
-        <span>Instant Multiplayer Hub</span>
+        <span>Welcome to Lester's Games</span>
       </div>
 
       <h1
@@ -34,20 +34,20 @@ export function Home() {
           letterSpacing: '-0.03em'
         }}
       >
-        Choose Your Game
+        Welcome to Lester's Game
       </h1>
 
       <p
         style={{
-          fontSize: '1.1rem',
+          fontSize: '1.15rem',
           color: 'var(--text-muted)',
           lineHeight: 1.5,
           marginBottom: '2.5rem',
-          maxWidth: '480px',
+          maxWidth: '520px',
           margin: '0 auto 2.5rem'
         }}
       >
-        Start a private room in seconds. Play together on phone or PC with zero login.
+        Hope you enjoy! Choose a game below, start a private room in seconds, or join your friends.
       </p>
 
       {/* Two Game Mode Cards Grid */}

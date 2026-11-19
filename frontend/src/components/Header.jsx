@@ -40,10 +40,15 @@ export function Header({ roomCode, gameType, onLeave }) {
             <Edit3 size={20} color="#2A9D8F" />
             <span>Draw & Guess</span>
           </>
-        ) : (
+        ) : gameType === 'CARDS' || location.search.includes('mode=cards') ? (
           <>
             <Heart size={20} color="#D96B43" fill="#D96B43" />
             <span>Comfort Cards</span>
+          </>
+        ) : (
+          <>
+            <Sparkles size={20} color="#D96B43" />
+            <span>Lester's Games</span>
           </>
         )}
       </Link>
