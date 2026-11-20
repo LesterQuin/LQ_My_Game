@@ -58,6 +58,11 @@ export function ScoreBoard({
               <div className="scoreboard-score">
                 <span className="score-num">{player.score || 0}</span>
                 <span className="score-pts">pts</span>
+                {player.roundScore > 0 && (
+                  <span className="score-round-bonus" title={`+${player.roundScore} pts this round`}>
+                    +{player.roundScore}
+                  </span>
+                )}
               </div>
             </div>
           );

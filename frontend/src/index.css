@@ -1402,12 +1402,47 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--accent-sage-subtle);
   color: var(--accent-sage);
   border: 1px solid rgba(95, 130, 102, 0.3);
-  padding: 0.35rem 0.65rem;
+  padding: 0.4rem 0.65rem;
   border-radius: var(--radius-sm);
   display: flex;
-  align-items: center;
-  gap: 0.35rem;
+  align-items: flex-start;
+  gap: 0.45rem;
   font-weight: 600;
+}
+
+.chat-msg.system-success .success-icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.correct-guess-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.correct-guess-body .guesser-line {
+  color: var(--accent-sage);
+}
+
+.correct-guess-body .pts-tag {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.1rem 0.35rem;
+  background: rgba(217, 107, 67, 0.15);
+  color: var(--accent-terracotta);
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.correct-guess-body .drawer-pts-note {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #3b5a41;
+  opacity: 0.95;
 }
 
 .chat-msg.system-close {
@@ -1622,6 +1657,31 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.72rem;
   color: var(--text-light);
   margin-left: 0.15rem;
+}
+
+.score-round-bonus {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-sage);
+  line-height: 1;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+.drawer-round-summary-badge {
+  margin-top: 0.85rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--accent-cream);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.drawer-round-summary-badge .drawer-earned-pts {
+  color: var(--accent-terracotta);
+  font-weight: 800;
 }
 
 /* ==========================================================================

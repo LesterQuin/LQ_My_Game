@@ -213,12 +213,19 @@ export function DrawGame({
             <h3 style={{ fontSize: '1.5rem', color: 'var(--text-main)', marginBottom: '0.5rem' }}>
               Round Over!
             </h3>
-            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
               The secret word was:
             </div>
             <div className="revealed-word-badge">
               "{lastRevealedWord || currentWord}"
             </div>
+            {currentDrawer && (
+              <div className="drawer-round-summary-badge">
+                <span>🎨 Drawer <strong>{currentDrawer.name}</strong> earned </span>
+                <strong className="drawer-earned-pts">+{currentDrawer.roundScore || 0} pts</strong>
+                <span> from correct guesses!</span>
+              </div>
+            )}
             <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', marginTop: '1rem' }}>
               Next turn starting shortly...
             </p>

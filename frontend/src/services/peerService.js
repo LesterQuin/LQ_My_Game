@@ -605,6 +605,10 @@ export class RoomPeerManager {
             if (this.onToast) {
               this.onToast(`"${data.guess}" is very close!`, 'info');
             }
+          } else if (data.type === 'TOAST') {
+            if (this.onToast) {
+              this.onToast(data.message, data.toastType || 'info');
+            }
           }
         });
 
@@ -1074,14 +1078,52 @@ export class RoomPeerManager {
       this.roomState.guessedPlayerIds.push(playerId);
 
       // Award Drawer +2 points per correct guesser
+      const drawerBonus = 2;
       if (currentDrawer) {
-        currentDrawer.score = (currentDrawer.score || 0) + 2;
+        currentDrawer.score = (currentDrawer.score || 0) + drawerBonus;
+        currentDrawer.roundScore = (currentDrawer.roundScore || 0) + drawerBonus;
       }
 
       this.roomState.messages.push({
         type: 'CORRECT_GUESS',
-        senderName: player.name
+        senderName: player.name,
+        points: points,
+        drawerName: currentDrawer ? currentDrawer.name : null,
+        drawerPoints: drawerBonus
       });
+
+      // Send immediate toast to guesser
+      if (playerId === this.playerId) {
+        if (this.onToast) this.onToast(`+${points} pts! You guessed correctly!`, 'success');
+      } else if (conn && conn.open) {
+        try {
+          conn.send({
+            type: 'TOAST',
+            message: `+${points} pts! You guessed correctly!`,
+            toastType: 'success'
+          });
+        } catch (e) {}
+      }
+
+      // Send immediate toast to drawer
+      if (currentDrawer) {
+        if (currentDrawer.playerId === this.playerId) {
+          if (this.onToast) {
+            this.onToast(`+${drawerBonus} pts! ${player.name} guessed your drawing!`, 'success');
+          }
+        } else {
+          const drawerConn = this.connections.get(currentDrawer.playerId);
+          if (drawerConn && drawerConn.open) {
+            try {
+              drawerConn.send({
+                type: 'TOAST',
+                message: `+${drawerBonus} pts! ${player.name} guessed your drawing!`,
+                toastType: 'success'
+              });
+            } catch (e) {}
+          }
+        }
+      }
 
       this._broadcastState();
 

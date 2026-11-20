@@ -43,10 +43,18 @@ export function GuessChat({
           if (msg.type === 'CORRECT_GUESS') {
             return (
               <div key={index} className="chat-msg system-success">
-                <CheckCircle2 size={14} />
-                <span>
-                  <strong>{msg.senderName}</strong> guessed the word!
-                </span>
+                <CheckCircle2 size={15} className="success-icon" />
+                <div className="correct-guess-body">
+                  <div className="guesser-line">
+                    <strong>{msg.senderName}</strong> guessed the word!
+                    {msg.points ? <span className="pts-tag">+{msg.points} pts</span> : null}
+                  </div>
+                  {msg.drawerName && (
+                    <div className="drawer-pts-note">
+                      🎨 <strong>{msg.drawerName}</strong> (Drawer) earned +{msg.drawerPoints || 2} pts
+                    </div>
+                  )}
+                </div>
               </div>
             );
           }
