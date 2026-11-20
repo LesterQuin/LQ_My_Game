@@ -27,6 +27,10 @@ export function useGameSocket() {
     }, 4000);
   }, []);
 
+  const clearToast = useCallback(() => {
+    setToastMessage(null);
+  }, []);
+
   const createRoom = useCallback(
     async ({
       name,
@@ -107,6 +111,7 @@ export function useGameSocket() {
     clearSessionRoom();
     setRoomState(null);
     setReactions([]);
+    setToastMessage(null);
   }, []);
 
   const startGame = useCallback(async () => {
@@ -186,6 +191,7 @@ export function useGameSocket() {
     roomState,
     error,
     toastMessage,
+    clearToast,
     showToast,
     reactions,
     createRoom,

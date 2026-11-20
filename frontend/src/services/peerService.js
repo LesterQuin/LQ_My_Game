@@ -1244,12 +1244,16 @@ export class RoomPeerManager {
     clearInterval(this._gameTimer);
     clearTimeout(this._intermissionTimer);
     clearTimeout(this._selectionTimer);
+    this._gameTimer = null;
+    this._intermissionTimer = null;
+    this._selectionTimer = null;
 
     if (this.hostConnection) {
       try {
         this.hostConnection.send({ type: 'LEAVE_ROOM' });
         this.hostConnection.close();
       } catch (e) {}
+      this.hostConnection = null;
     }
 
     for (const conn of this.connections.values()) {
@@ -1266,7 +1270,19 @@ export class RoomPeerManager {
       this.peer = null;
     }
 
+    this.onToast = null;
+    this.onStateChange = null;
+    this.onReaction = null;
+    this.onError = null;
+    this.onDrawSegment = null;
+    this.onClearCanvas = null;
+    this.onUndoStroke = null;
     this.roomState = null;
+    this.isHost = false;
+    this.roomCode = null;
+    this.playerId = null;
+    this.playerName = null;
+    this._revealedIndices.clear();
   }
 }
 

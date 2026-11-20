@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Header } from './components/Header.jsx';
 import { Toast } from './components/Toast.jsx';
 import { Home } from './pages/Home.jsx';
@@ -105,6 +105,7 @@ function MainApp() {
   const {
     roomState,
     toastMessage,
+    clearToast,
     reactions,
     createRoom,
     joinRoom,
@@ -127,6 +128,20 @@ function MainApp() {
 
   const { playerId } = getSessionData();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // If user navigates away from the active room (e.g. back to home, create, or tic-tac-toe),
+  // immediately clean up the room session, stop all background game timers, and clear toasts.
+  useEffect(() => {
+    if (!location.pathname.startsWith('/room')) {
+      if (roomState) {
+        leaveRoom();
+      }
+      if (clearToast) {
+        clearToast();
+      }
+    }
+  }, [location.pathname, roomState, leaveRoom, clearToast]);
 
   const handleLeave = async () => {
     await leaveRoom();
@@ -173,7 +188,8 @@ function MainApp() {
         </Routes>
       </main>
 
-      <Toast toast={toastMessage} />
+      {/* Only display room toasts (hints, guesses) while actively inside a room */}
+      {location.pathname.startsWith('/room') && <Toast toast={toastMessage} />}
     </div>
   );
 }
