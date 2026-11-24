@@ -1068,8 +1068,13 @@ export class RoomPeerManager {
     if (!cleanGuess) return;
 
     const targetWord = (this.roomState.currentWord || '').trim();
+    const norm = (str) => (str || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    if (cleanGuess.toLowerCase() === targetWord.toLowerCase()) {
+    const isMatch =
+      cleanGuess.toLowerCase() === targetWord.toLowerCase() ||
+      (norm(cleanGuess) && norm(cleanGuess) === norm(targetWord));
+
+    if (isMatch) {
       // Correct!
       player.hasGuessed = true;
       const guessRank = this.roomState.guessedPlayerIds.length + 1;
