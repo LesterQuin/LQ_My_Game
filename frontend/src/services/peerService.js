@@ -457,6 +457,11 @@ export class RoomPeerManager {
         break;
       }
 
+      case 'SEND_CHAT': {
+        this.handleChatMessage(msg.playerId, msg.text);
+        break;
+      }
+
       default:
         break;
     }
@@ -1211,6 +1216,45 @@ export class RoomPeerManager {
     } else if (this.hostConnection && this.hostConnection.open) {
       this.hostConnection.send({ type: 'UNDO_STROKE' });
     }
+  }
+
+  sendChatMessage(text) {
+    if (this.isHost) {
+      this.handleChatMessage(this.playerId, text);
+    } else if (this.hostConnection && this.hostConnection.open) {
+      this.hostConnection.send({
+        type: 'SEND_CHAT',
+        playerId: this.playerId,
+        text
+      });
+    }
+  }
+
+  handleChatMessage(playerId, rawText) {
+    if (!this.roomState) return;
+    const player = this.roomState.players.find((p) => p.playerId === playerId);
+    if (!player) return;
+    const cleanText = (rawText || '').trim();
+    if (!cleanText) return;
+
+    if (!Array.isArray(this.roomState.messages)) {
+      this.roomState.messages = [];
+    }
+
+    this.roomState.messages.push({
+      type: 'CHAT',
+      id: `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      senderId: playerId,
+      senderName: player.name,
+      text: cleanText,
+      timestamp: Date.now()
+    });
+
+    if (this.roomState.messages.length > 80) {
+      this.roomState.messages = this.roomState.messages.slice(-80);
+    }
+
+    this._broadcastState();
   }
 
   submitGuess(guess) {

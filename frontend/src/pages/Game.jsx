@@ -4,6 +4,7 @@ import { Sparkles, RotateCcw, Home as HomeIcon, Heart, ArrowRight, MessageCircle
 import { PlayerList } from '../components/PlayerList.jsx';
 import { SampleAnswerModal } from '../components/SampleAnswerModal.jsx';
 import { FloatingReactions } from '../components/FloatingReactions.jsx';
+import { CardChatDrawer } from '../components/CardChatDrawer.jsx';
 
 export function Game({
   roomState,
@@ -12,7 +13,8 @@ export function Game({
   onPlayAgain,
   onLeaveRoom,
   reactions = [],
-  onSendReaction
+  onSendReaction,
+  onSendChatMessage
 }) {
   const [loading, setLoading] = useState(false);
   const [showSampleModal, setShowSampleModal] = useState(false);
@@ -44,6 +46,7 @@ export function Game({
     currentCardIndex = 0,
     totalCards = 60,
     cardsRemaining = 0,
+    messages = [],
     status
   } = roomState;
 
@@ -349,6 +352,13 @@ export function Game({
           status={status}
         />
       </div>
+
+      {/* Floating Chat Drawer for Comfort Cards */}
+      <CardChatDrawer
+        messages={messages}
+        currentUserId={playerId}
+        onSendMessage={onSendChatMessage}
+      />
 
       {/* Sample Answer Modal */}
       <SampleAnswerModal

@@ -30,7 +30,8 @@ function RoomRoute({
   clearCanvas,
   undoStroke,
   submitGuess,
-  giveHint
+  giveHint,
+  sendChatMessage
 }) {
   const { roomCode } = useParams();
   const navigate = useNavigate();
@@ -97,6 +98,7 @@ function RoomRoute({
       onLeaveRoom={handleLeave}
       reactions={reactions}
       onSendReaction={sendReaction}
+      onSendChatMessage={sendChatMessage}
     />
   );
 }
@@ -123,7 +125,8 @@ function MainApp() {
     clearCanvas,
     undoStroke,
     submitGuess,
-    giveHint
+    giveHint,
+    sendChatMessage
   } = useGameSocket();
 
   const { playerId } = getSessionData();
@@ -181,6 +184,7 @@ function MainApp() {
                 undoStroke={undoStroke}
                 submitGuess={submitGuess}
                 giveHint={giveHint}
+                sendChatMessage={sendChatMessage}
               />
             }
           />

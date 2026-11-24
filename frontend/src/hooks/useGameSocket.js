@@ -187,6 +187,10 @@ export function useGameSocket() {
     peerManager.giveHint();
   }, []);
 
+  const sendChatMessage = useCallback((text) => {
+    peerManager.sendChatMessage(text);
+  }, []);
+
   return {
     roomState,
     error,
@@ -201,6 +205,7 @@ export function useGameSocket() {
     nextQuestion,
     playAgain,
     sendReaction,
+    sendChatMessage,
     setDeckSize,
     setGameType,
     setRounds,
