@@ -578,7 +578,7 @@ export function TicTacToe() {
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
         <Sparkles size={24} color="#2A9D8F" />
-        <h2 style={{ fontSize: '1.9rem', fontWeight: 800, margin: 0 }}>Tic-Tac-Toe</h2>
+        <h2 style={{ fontSize: '1.9rem', fontWeight: 800, margin: 0 }}>Tic-Tok-Too</h2>
       </div>
       <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', marginBottom: '1.25rem' }}>
         Classic 3x3 strategy. Challenge the smart computer or play online with a friend!

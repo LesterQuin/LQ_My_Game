@@ -833,7 +833,7 @@ export class RoomPeerManager {
     if (!this.isHost || !this.roomState) return;
 
     if (this.roomState.players.length < 2) {
-      throw new Error('Need at least 2 players to play Draw & Guess.');
+      throw new Error('Need at least 2 players to play Draw mo Ayusin mo.');
     }
 
     // Reset scores & rounds

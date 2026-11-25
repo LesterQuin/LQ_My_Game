@@ -102,7 +102,7 @@ export function Lobby({
         }}
       >
         {isDrawGame ? <Edit3 size={15} /> : <Sparkles size={15} />}
-        <span>{isDrawGame ? 'Draw & Guess' : 'Comfort Cards'}</span>
+        <span>{isDrawGame ? 'Draw mo Ayusin mo' : 'Comfort ni Les'}</span>
       </div>
 
       <div style={{ marginBottom: '1.25rem' }}>
@@ -470,7 +470,7 @@ export function Lobby({
           {!canStart && (
             <p style={{ fontSize: '0.825rem', color: 'var(--text-light)' }}>
               {isDrawGame
-                ? 'Need at least 2 players to start Draw & Guess.'
+                ? 'Need at least 2 players to start Draw mo Ayusin mo.'
                 : 'Waiting for players to join.'}
             </p>
           )}

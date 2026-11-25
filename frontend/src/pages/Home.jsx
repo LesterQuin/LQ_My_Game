@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Users, Edit3, MessageCircle, Heart, ArrowRight, Grid } from 'lucide-react';
+import { Sparkles, Users, Edit3, MessageCircle, Heart, ArrowRight, Grid, Flame } from 'lucide-react';
 
 export function Home() {
   return (
@@ -52,7 +52,7 @@ export function Home() {
 
       {/* Two Game Mode Cards Grid */}
       <div className="hub-games-grid">
-        {/* Game 1: Comfort Cards */}
+        {/* Game 1: Comfort ni Les */}
         <div className="hub-game-card">
           <div className="hub-card-header">
             <div className="hub-game-icon cards">
@@ -61,7 +61,7 @@ export function Home() {
             <span className="hub-tag">Reflection</span>
           </div>
 
-          <h3 className="hub-game-title">Comfort Cards</h3>
+          <h3 className="hub-game-title">Comfort ni Les</h3>
           <p className="hub-game-desc">
             A warm 120-question conversation deck in Tagalog and English. Connect, listen, and share heartfelt thoughts.
           </p>
@@ -71,12 +71,12 @@ export function Home() {
             className="btn btn-primary btn-block"
             style={{ padding: '0.85rem', fontSize: '0.95rem', marginTop: 'auto' }}
           >
-            <span>Host Comfort Cards</span>
+            <span>Host Comfort ni Les</span>
             <ArrowRight size={16} />
           </Link>
         </div>
 
-        {/* Game 2: Draw & Guess */}
+        {/* Game 2: Draw mo Ayusin mo */}
         <div className="hub-game-card highlight">
           <div className="hub-card-header">
             <div className="hub-game-icon draw">
@@ -85,7 +85,7 @@ export function Home() {
             <span className="hub-tag new">New Game!</span>
           </div>
 
-          <h3 className="hub-game-title">Draw & Guess</h3>
+          <h3 className="hub-game-title">Draw mo Ayusin mo</h3>
           <p className="hub-game-desc">
             Pictionary-style fun! Take turns drawing on your screen while others guess the English word against the clock.
           </p>
@@ -101,12 +101,12 @@ export function Home() {
               borderColor: '#2A9D8F'
             }}
           >
-            <span>Host Draw & Guess</span>
+            <span>Host Draw mo Ayusin mo</span>
             <ArrowRight size={16} />
           </Link>
         </div>
 
-        {/* Game 3: Tic-Tac-Toe */}
+        {/* Game 3: Tic-Tok-Too */}
         <div className="hub-game-card">
           <div className="hub-card-header">
             <div className="hub-game-icon tictac">
@@ -115,7 +115,7 @@ export function Home() {
             <span className="hub-tag new">1 vs AI / 2 Players</span>
           </div>
 
-          <h3 className="hub-game-title">Tic-Tac-Toe</h3>
+          <h3 className="hub-game-title">Tic-Tok-Too</h3>
           <p className="hub-game-desc">
             Classic 3x3 strategy! Play online with a friend via link or challenge the smart computer.
           </p>
@@ -131,7 +131,37 @@ export function Home() {
               borderColor: '#E76F51'
             }}
           >
-            <span>Play Tic-Tac-Toe</span>
+            <span>Play Tic-Tok-Too</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {/* Game 4: Matinick si Les */}
+        <div className="hub-game-card highlight">
+          <div className="hub-card-header">
+            <div className="hub-game-icon matinik" style={{ backgroundColor: 'rgba(217, 107, 67, 0.15)', borderRadius: '12px', padding: '8px' }}>
+              <Flame size={28} color="#D96B43" />
+            </div>
+            <span className="hub-tag new">New Math Duel!</span>
+          </div>
+
+          <h3 className="hub-game-title">Matinick si Les</h3>
+          <p className="hub-game-desc">
+            Fast mental math race! Secretly pick your numbers, reveal the random operation, and buzz in the answer first.
+          </p>
+
+          <Link
+            to="/matinik"
+            className="btn btn-primary btn-block"
+            style={{
+              padding: '0.85rem',
+              fontSize: '0.95rem',
+              marginTop: 'auto',
+              backgroundColor: '#D96B43',
+              borderColor: '#D96B43'
+            }}
+          >
+            <span>Play Matinick si Les</span>
             <ArrowRight size={16} />
           </Link>
         </div>

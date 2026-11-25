@@ -114,7 +114,7 @@ export function CreateGame({ onCreateRoom }) {
           {isDraw ? <Edit3 size={22} color="#2A9D8F" /> : <MessageCircle size={22} color="#D96B43" />}
         </div>
         <div className="selected-game-text">
-          <div className="selected-game-name">{isDraw ? 'Draw & Guess' : 'Comfort Cards'}</div>
+          <div className="selected-game-name">{isDraw ? 'Draw mo Ayusin mo' : 'Comfort ni Les'}</div>
           <div className="selected-game-tagline">
             {isDraw ? 'Multiplayer sketching & fast guessing' : '120-card heartfelt conversation game'}
           </div>

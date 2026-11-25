@@ -9,6 +9,7 @@ import { Lobby } from './pages/Lobby.jsx';
 import { Game } from './pages/Game.jsx';
 import { DrawGame } from './pages/DrawGame.jsx';
 import { TicTacToe } from './pages/TicTacToe.jsx';
+import { MatinikGame } from './pages/MatinikGame.jsx';
 import { useGameSocket } from './hooks/useGameSocket.js';
 import { getSessionData } from './utils/session.js';
 
@@ -160,6 +161,8 @@ function MainApp() {
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<CreateGame onCreateRoom={createRoom} />} />
           <Route path="/tictactoe" element={<TicTacToe />} />
+          <Route path="/matinik" element={<MatinikGame />} />
+          <Route path="/matinik/:initialRoom" element={<MatinikGame />} />
           <Route path="/join" element={<JoinGame onJoinRoom={joinRoom} />} />
           <Route path="/join/:initialCode" element={<JoinGame onJoinRoom={joinRoom} />} />
           <Route

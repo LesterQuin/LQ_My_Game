@@ -271,7 +271,7 @@ export function Game({
               Read aloud and discuss naturally together.
             </div>
             <div className="card-deck-seal">
-              Comfort Cards • 60-Card Conversation Deck
+              Comfort ni Les • 60-Card Conversation Deck
             </div>
           </div>
         </div>

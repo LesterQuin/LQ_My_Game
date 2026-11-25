@@ -33,17 +33,17 @@ export function Header({ roomCode, gameType, onLeave }) {
         {isTicTac ? (
           <>
             <Grid size={20} color="#2A9D8F" />
-            <span>Tic-Tac-Toe</span>
+            <span>Tic-Tok-Too</span>
           </>
         ) : isDraw ? (
           <>
             <Edit3 size={20} color="#2A9D8F" />
-            <span>Draw & Guess</span>
+            <span>Draw mo Ayusin mo</span>
           </>
         ) : gameType === 'CARDS' || location.search.includes('mode=cards') ? (
           <>
             <Heart size={20} color="#D96B43" fill="#D96B43" />
-            <span>Comfort Cards</span>
+            <span>Comfort ni Les</span>
           </>
         ) : (
           <>
