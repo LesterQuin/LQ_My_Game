@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { ArrowLeft, Sparkles, Users, Edit3, MessageCircle, Clock, Tag } from 'lucide-react';
-import { DRAW_CATEGORIES, getCategoryDetails } from '../data/drawWords.js';
+import { DRAW_CATEGORIES, getCategoryDetails, getCategoriesSummary } from '../data/drawWords.js';
 import { isHostUnlocked, HostPasscodeModal } from '../components/PasswordGate.jsx';
 
 export function CreateGame({ onCreateRoom }) {
@@ -14,12 +14,27 @@ export function CreateGame({ onCreateRoom }) {
   const [deckSize, setDeckSize] = useState(30);
   const [totalRounds, setTotalRounds] = useState(5);
   const [roundDuration, setRoundDuration] = useState(60);
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
-  const selectedCatObj = getCategoryDetails(selectedCategory);
+  const [selectedCategories, setSelectedCategories] = useState(['ALL']);
+  const categorySummary = getCategoriesSummary(selectedCategories);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassModal, setShowPassModal] = useState(false);
   const navigate = useNavigate();
+
+  const handleToggleCategory = (catId) => {
+    if (catId === 'ALL') {
+      setSelectedCategories(['ALL']);
+      return;
+    }
+    if (selectedCategories.includes('ALL')) {
+      setSelectedCategories([catId]);
+    } else if (selectedCategories.includes(catId)) {
+      const next = selectedCategories.filter((c) => c !== catId);
+      setSelectedCategories(next.length > 0 ? next : ['ALL']);
+    } else {
+      setSelectedCategories([...selectedCategories, catId]);
+    }
+  };
 
   useEffect(() => {
     const mode = searchParams.get('mode');
@@ -60,7 +75,7 @@ export function CreateGame({ onCreateRoom }) {
         deckSize,
         totalRounds,
         roundDuration,
-        selectedCategory
+        selectedCategory: selectedCategories.length === 1 && selectedCategories[0] === 'ALL' ? 'ALL' : selectedCategories
       });
       navigate(`/room/${res.roomCode}`);
     } catch (err) {
@@ -307,26 +322,47 @@ export function CreateGame({ onCreateRoom }) {
               </div>
             </div>
 
-            {/* Word Category Selector */}
+            {/* Word Category Selector (Multi-Select) */}
             <div className="input-group" style={{ marginTop: '1.25rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
                 <label className="input-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', margin: 0 }}>
                   <Tag size={16} />
-                  <span>Word Category</span>
+                  <span>Word Categories (Multi-Select)</span>
                 </label>
-                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--accent-terracotta)' }}>
-                  {selectedCatObj.name}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-terracotta)' }}>
+                    {categorySummary.isAll ? 'All Categories' : `${categorySummary.categories.length} Selected`}
+                  </span>
+                  {!categorySummary.isAll && (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCategories(['ALL'])}
+                      style={{
+                        fontSize: '0.72rem',
+                        color: 'var(--text-muted)',
+                        textDecoration: 'underline',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0
+                      }}
+                    >
+                      Reset to All
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="category-select-grid">
                 {DRAW_CATEGORIES.map((cat) => {
-                  const isSelected = selectedCategory === cat.id;
+                  const isSelected = cat.id === 'ALL'
+                    ? selectedCategories.includes('ALL')
+                    : !selectedCategories.includes('ALL') && selectedCategories.includes(cat.id);
                   return (
                     <button
                       key={cat.id}
                       type="button"
-                      onClick={() => setSelectedCategory(cat.id)}
+                      onClick={() => handleToggleCategory(cat.id)}
                       disabled={loading}
                       className={`category-select-chip ${isSelected ? 'active' : ''}`}
                     >
@@ -334,21 +370,21 @@ export function CreateGame({ onCreateRoom }) {
                       <div className="cat-chip-info">
                         <span className="cat-chip-title">{cat.name}</span>
                       </div>
+                      {isSelected && <span className="cat-chip-check">✓</span>}
                     </button>
                   );
                 })}
               </div>
 
-              {/* Detailed preview card for selected category */}
-              {selectedCatObj && (
-                <div className="category-detail-preview">
-                  <div className="cat-preview-header">
-                    <span className="cat-preview-icon">{selectedCatObj.icon}</span>
-                    <strong className="cat-preview-name">{selectedCatObj.name}</strong>
-                  </div>
-                  <p className="cat-preview-desc" style={{ margin: 0 }}>{selectedCatObj.desc}</p>
+              {/* Detailed preview card for selected categories */}
+              <div className="category-detail-preview">
+                <div className="cat-preview-header">
+                  <span className="cat-preview-icon">{categorySummary.icon}</span>
+                  <strong className="cat-preview-name">{categorySummary.title}</strong>
+                  <span className="cat-preview-count-pill">{categorySummary.count} words</span>
                 </div>
-              )}
+                <p className="cat-preview-desc" style={{ margin: 0 }}>{categorySummary.desc}</p>
+              </div>
             </div>
           </>
         )}

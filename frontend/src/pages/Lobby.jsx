@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check, Play, LogOut, Users, Share2, Crown, QrCode, Sparkles, Edit3, Clock, Tag } from 'lucide-react';
 import { copyToClipboard } from '../utils/clipboard.js';
-import { DRAW_CATEGORIES } from '../data/drawWords.js';
+import { DRAW_CATEGORIES, getCategoriesSummary } from '../data/drawWords.js';
 
 export function Lobby({
   roomState,
@@ -28,8 +28,29 @@ export function Lobby({
   const currentDeckSize = roomState.deckSize || 30;
   const currentRounds = roomState.totalRounds || 5;
   const currentDuration = roomState.roundDuration || 60;
-  const currentCategory = roomState.selectedCategory || 'ALL';
-  const currentCategoryObj = DRAW_CATEGORIES.find((c) => c.id === currentCategory) || DRAW_CATEGORIES[0];
+  const currentCategoryRaw = roomState.selectedCategory || 'ALL';
+  const currentCategories = Array.isArray(currentCategoryRaw)
+    ? currentCategoryRaw
+    : (typeof currentCategoryRaw === 'string' && currentCategoryRaw.includes(',')
+      ? currentCategoryRaw.split(',').map((s) => s.trim())
+      : (currentCategoryRaw !== 'ALL' ? [currentCategoryRaw] : ['ALL']));
+  const categorySummary = getCategoriesSummary(currentCategories);
+
+  const handleToggleCategory = (catId) => {
+    if (!onSetCategory) return;
+    if (catId === 'ALL') {
+      onSetCategory('ALL');
+      return;
+    }
+    if (currentCategories.includes('ALL')) {
+      onSetCategory([catId]);
+    } else if (currentCategories.includes(catId)) {
+      const next = currentCategories.filter((c) => c !== catId);
+      onSetCategory(next.length > 0 ? next : 'ALL');
+    } else {
+      onSetCategory([...currentCategories, catId]);
+    }
+  };
 
   const deckOptions = [
     { size: 15, label: '15 Cards', desc: 'Quick' },
@@ -271,33 +292,44 @@ export function Lobby({
 
           {isHost ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              {/* Category toggle */}
+              {/* Category toggle (Multi-select) */}
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.4rem' }}>
-                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', minWidth: '55px', paddingTop: '4px' }}>Category:</span>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', minWidth: '55px', paddingTop: '4px' }}>Categories:</span>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', flex: 1 }}>
-                  {DRAW_CATEGORIES.map((cat) => (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => onSetCategory && onSetCategory(cat.id)}
-                      className={`lobby-cat-btn ${currentCategory === cat.id ? 'active' : ''}`}
-                      title={`${cat.name}: ${cat.desc}`}
-                    >
-                      <span>{cat.icon}</span>
-                      <span>{cat.name}</span>
-                    </button>
-                  ))}
+                  {DRAW_CATEGORIES.map((cat) => {
+                    const isSelected = cat.id === 'ALL'
+                      ? currentCategories.includes('ALL')
+                      : !currentCategories.includes('ALL') && currentCategories.includes(cat.id);
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => handleToggleCategory(cat.id)}
+                        className={`lobby-cat-btn ${isSelected ? 'active' : ''}`}
+                        title={`${cat.name}: ${cat.desc}`}
+                      >
+                        <span>{cat.icon}</span>
+                        <span>{cat.name}</span>
+                        {isSelected && <span style={{ fontSize: '0.7rem', fontWeight: 800, marginLeft: '2px' }}>✓</span>}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
               {/* Category Details Banner */}
               <div className="lobby-category-detail-banner">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem' }}>
-                  <span style={{ fontSize: '1.1rem' }}>{currentCategoryObj.icon}</span>
-                  <strong style={{ fontSize: '0.85rem', color: 'var(--text-main)' }}>{currentCategoryObj.name}</strong>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <span style={{ fontSize: '1.1rem' }}>{categorySummary.icon}</span>
+                    <strong style={{ fontSize: '0.85rem', color: 'var(--text-main)' }}>{categorySummary.title}</strong>
+                  </div>
+                  <span className="cat-preview-count-pill" style={{ fontSize: '0.72rem', fontWeight: 700, background: 'rgba(42, 157, 143, 0.12)', color: '#2A9D8F', padding: '0.15rem 0.45rem', borderRadius: 'var(--radius-pill)' }}>
+                    {categorySummary.count} words
+                  </span>
                 </div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                  {currentCategoryObj.desc}
+                  {categorySummary.desc}
                 </div>
               </div>
 
@@ -340,11 +372,11 @@ export function Lobby({
           ) : (
             <div>
               <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
-                Host configured: <strong>{currentRounds} Rounds</strong> ({currentDuration}s) in <strong>{currentCategoryObj.icon} {currentCategoryObj.name}</strong>.
+                Host configured: <strong>{currentRounds} Rounds</strong> ({currentDuration}s) with <strong>{categorySummary.title}</strong>.
               </div>
               <div className="lobby-category-detail-banner">
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                  {currentCategoryObj.desc}
+                  {categorySummary.desc}
                 </div>
               </div>
             </div>

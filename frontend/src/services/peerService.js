@@ -187,9 +187,19 @@ export class RoomPeerManager {
     const validDeckSize = [15, 30, 60].includes(Number(deckSize)) ? Number(deckSize) : 30;
     const validRounds = [3, 5, 8, 10].includes(Number(totalRounds)) ? Number(totalRounds) : 5;
     const validDuration = [45, 60, 80].includes(Number(roundDuration)) ? Number(roundDuration) : 60;
-    const validCategory = ['ALL', 'Animals', 'Fruits', 'Professions', 'Sports', 'Food', 'Objects', 'Nature', 'Characters', 'Actions', 'MLBB'].includes(selectedCategory)
-      ? selectedCategory
-      : 'ALL';
+    const validCats = ['ALL', 'Animals', 'Fruits', 'Professions', 'Sports', 'Food', 'Objects', 'Nature', 'Characters', 'Actions', 'MLBB'];
+    let validCategory = 'ALL';
+    if (Array.isArray(selectedCategory)) {
+      const filtered = selectedCategory.filter((c) => validCats.includes(c));
+      validCategory = filtered.length > 0 ? (filtered.includes('ALL') ? 'ALL' : filtered) : 'ALL';
+    } else if (typeof selectedCategory === 'string') {
+      if (selectedCategory.includes(',')) {
+        const parts = selectedCategory.split(',').map((s) => s.trim()).filter((c) => validCats.includes(c));
+        validCategory = parts.length > 0 ? (parts.includes('ALL') ? 'ALL' : parts) : 'ALL';
+      } else {
+        validCategory = validCats.includes(selectedCategory) ? selectedCategory : 'ALL';
+      }
+    }
 
     return new Promise((resolve, reject) => {
       let isSettled = false;
@@ -810,11 +820,23 @@ export class RoomPeerManager {
   }
 
   /**
-   * Set word category for Draw & Guess ('ALL', 'Animals', 'Food', 'Objects', 'Nature', 'Characters', 'Actions')
+   * Set word category for Draw mo Ayusin mo ('ALL' or array of specific categories)
    */
   setCategory(category) {
-    const validCategories = ['ALL', 'Animals', 'Fruits', 'Professions', 'Sports', 'Food', 'Objects', 'Nature', 'Characters', 'Actions', 'MLBB'];
-    const chosen = validCategories.includes(category) ? category : 'ALL';
+    const validCats = ['ALL', 'Animals', 'Fruits', 'Professions', 'Sports', 'Food', 'Objects', 'Nature', 'Characters', 'Actions', 'MLBB'];
+    let chosen = 'ALL';
+    if (Array.isArray(category)) {
+      const filtered = category.filter((c) => validCats.includes(c));
+      chosen = filtered.length > 0 ? (filtered.includes('ALL') ? 'ALL' : filtered) : 'ALL';
+    } else if (typeof category === 'string') {
+      if (category.includes(',')) {
+        const parts = category.split(',').map((s) => s.trim()).filter((c) => validCats.includes(c));
+        chosen = parts.length > 0 ? (parts.includes('ALL') ? 'ALL' : parts) : 'ALL';
+      } else {
+        chosen = validCats.includes(category) ? category : 'ALL';
+      }
+    }
+
     if (this.isHost && this.roomState) {
       this.roomState.selectedCategory = chosen;
       this._broadcastState();

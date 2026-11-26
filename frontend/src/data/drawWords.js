@@ -76,6 +76,43 @@ export function getCategoryDetails(categoryId) {
   return DRAW_CATEGORIES.find((c) => c.id === categoryId) || DRAW_CATEGORIES[0];
 }
 
+/**
+ * Returns a human-friendly summary object for single or multiple selected categories.
+ */
+export function getCategoriesSummary(categories) {
+  let list = [];
+  if (Array.isArray(categories)) {
+    list = categories;
+  } else if (typeof categories === 'string' && categories.trim()) {
+    list = categories.split(',').map((c) => c.trim()).filter(Boolean);
+  }
+
+  const isAll = list.length === 0 || list.includes('ALL');
+  if (isAll) {
+    return {
+      title: 'All Categories',
+      icon: '🎲',
+      desc: 'Random blend of all themes & categories (550+ words)',
+      categories: ['ALL'],
+      count: DRAW_WORDS.length,
+      isAll: true
+    };
+  }
+
+  const matched = DRAW_CATEGORIES.filter((c) => c.id !== 'ALL' && list.includes(c.id));
+  const upperList = new Set(list.map((c) => c.toUpperCase()));
+  const wordCount = DRAW_WORDS.filter((w) => upperList.has(w.category.toUpperCase())).length;
+
+  return {
+    title: matched.map((m) => m.name).join(', '),
+    icon: matched.length === 1 ? matched[0].icon : '🎨',
+    desc: `${matched.length} categories active (${wordCount} words): ${matched.map((m) => `${m.icon} ${m.name}`).join(' • ')}`,
+    categories: matched.map((m) => m.id),
+    count: wordCount,
+    isAll: false
+  };
+}
+
 export const DRAW_WORDS = [
   // =========================================================================
   // 1. Animals (100)
@@ -1113,15 +1150,24 @@ export const DRAW_WORDS = [
 
 /**
  * Returns a randomized slice of words for a drawer to choose from.
- * Supports filtering by category ('ALL' or specific category name).
+ * Supports filtering by single or multiple categories ('ALL', category name string, or array of category names).
  */
 export function getRandomWordOptions(count = 3, excludeWords = [], category = 'ALL') {
   let pool = DRAW_WORDS;
 
-  // Filter by category if specified and not 'ALL'
-  if (category && category.toUpperCase() !== 'ALL') {
-    const catUpper = category.toUpperCase();
-    const filtered = DRAW_WORDS.filter((item) => item.category.toUpperCase() === catUpper);
+  // Normalize category to an array of uppercase categories
+  let selectedCats = [];
+  if (Array.isArray(category)) {
+    selectedCats = category.map((c) => String(c).trim().toUpperCase()).filter(Boolean);
+  } else if (typeof category === 'string' && category.trim()) {
+    selectedCats = category.split(',').map((c) => c.trim().toUpperCase()).filter(Boolean);
+  }
+
+  // If not 'ALL' and not empty, filter words matching ANY of the selected categories
+  const isAll = selectedCats.length === 0 || selectedCats.includes('ALL');
+  if (!isAll) {
+    const catSet = new Set(selectedCats);
+    const filtered = DRAW_WORDS.filter((item) => catSet.has(item.category.toUpperCase()));
     if (filtered.length >= count) {
       pool = filtered;
     }

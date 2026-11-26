@@ -1988,6 +1988,20 @@ h1, h2, h3, h4, h5, h6 {
   color: rgba(255, 255, 255, 0.85);
 }
 
+.cat-chip-check {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 /* Category Detailed Preview Box (Create Game) */
 .category-detail-preview {
   margin-top: 0.75rem;

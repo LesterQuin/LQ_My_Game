@@ -4,6 +4,7 @@ import { Sparkles, RotateCcw, Home as HomeIcon, Trophy, Clock, Edit3, CheckCircl
 import { DrawingCanvas } from '../components/DrawingCanvas.jsx';
 import { GuessChat } from '../components/GuessChat.jsx';
 import { ScoreBoard } from '../components/ScoreBoard.jsx';
+import { getCategoriesSummary } from '../data/drawWords.js';
 
 export function DrawGame({
   roomState,
@@ -177,9 +178,12 @@ export function DrawGame({
               <h3 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Choose a Word to Draw</h3>
             </div>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '1.25rem' }}>
-              {roomState.selectedCategory && roomState.selectedCategory !== 'ALL'
-                ? `Category: ${roomState.selectedCategory}. Pick one to sketch!`
-                : 'Pick the word you want to sketch. Others will try to guess it!'}
+              {(() => {
+                const summary = getCategoriesSummary(roomState.selectedCategory);
+                return summary.isAll
+                  ? 'Pick the word you want to sketch. Others will try to guess it!'
+                  : `Active Categories: ${summary.title}. Pick one to sketch!`;
+              })()}
             </p>
 
             <div className="word-choice-cards">
