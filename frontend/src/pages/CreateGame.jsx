@@ -9,7 +9,9 @@ export function CreateGame({ onCreateRoom }) {
   const initialMode = searchParams.get('mode') === 'draw' ? 'DRAW_AND_GUESS' : 'CARDS';
 
   const [gameType, setGameType] = useState(initialMode);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(() => {
+    return sessionStorage.getItem('cc_player_name') || localStorage.getItem('matinik_player_name') || '';
+  });
   const [maxPlayers, setMaxPlayers] = useState(6);
   const [deckSize, setDeckSize] = useState(30);
   const [totalRounds, setTotalRounds] = useState(5);
@@ -63,11 +65,17 @@ export function CreateGame({ onCreateRoom }) {
     { sec: 80, label: '80s', desc: 'Relaxed' }
   ];
 
-  const executeCreateRoom = async () => {
-    const trimmed = name.trim();
+  const executeCreateRoom = async (overrideName) => {
+    const trimmed = (overrideName !== undefined ? overrideName : name).trim() || 'Ace';
     try {
       setLoading(true);
       setError('');
+      // Clean selected categories
+      const cleanCategory =
+        !selectedCategories || selectedCategories.length === 0 || (selectedCategories.length === 1 && selectedCategories[0] === 'ALL')
+          ? 'ALL'
+          : selectedCategories;
+
       const res = await onCreateRoom({
         name: trimmed,
         maxPlayers,
@@ -75,24 +83,20 @@ export function CreateGame({ onCreateRoom }) {
         deckSize,
         totalRounds,
         roundDuration,
-        selectedCategory: selectedCategories.length === 1 && selectedCategories[0] === 'ALL' ? 'ALL' : selectedCategories
+        selectedCategory: cleanCategory
       });
       navigate(`/room/${res.roomCode}`);
     } catch (err) {
-      setError(err.message || 'Failed to create room.');
+      console.error('Room creation error:', err);
+      setError(err.message || 'Failed to create room. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const trimmed = name.trim();
-
-    if (!trimmed) {
-      setError('Please enter your nickname.');
-      return;
-    }
+    if (e && e.preventDefault) e.preventDefault();
+    const trimmed = name.trim() || 'Ace';
 
     if (trimmed.length > 25) {
       setError('Nickname must be 25 characters or fewer.');
@@ -105,7 +109,7 @@ export function CreateGame({ onCreateRoom }) {
       return;
     }
 
-    await executeCreateRoom();
+    await executeCreateRoom(trimmed);
   };
 
   const isDraw = gameType === 'DRAW_AND_GUESS';
@@ -145,7 +149,7 @@ export function CreateGame({ onCreateRoom }) {
             id="host-name"
             type="text"
             className="input-field"
-            placeholder="e.g. Lester"
+            placeholder="Ace"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -397,7 +401,7 @@ export function CreateGame({ onCreateRoom }) {
 
         <button
           type="submit"
-          disabled={loading || !name.trim()}
+          disabled={loading}
           className="btn btn-primary btn-block"
           style={{ marginTop: '2rem', padding: '1rem', fontSize: '1.05rem' }}
         >
