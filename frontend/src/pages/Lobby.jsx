@@ -286,7 +286,7 @@ export function Lobby({
               <span>Rounds & Settings</span>
             </div>
             <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#2A9D8F' }}>
-              {currentRounds} Rounds • {currentDuration}s • {currentCategoryObj.icon} {currentCategoryObj.name}
+              {currentRounds} Rounds • {currentDuration}s • {categorySummary.icon} {categorySummary.title}
             </span>
           </div>
 
