@@ -1069,8 +1069,28 @@ export function MatinikGame() {
 
           {/* ACTIVE GAME PHASES */}
           {gameState !== 'LOBBY' && (
-            <div>
-              {/* Multiplayer Scoreboard Bar */}
+            <div className="matinik-arena-table">
+              {/* Subtle Arena Watermark */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  fontSize: '5rem',
+                  fontWeight: 900,
+                  color: 'rgba(255,255,255,0.03)',
+                  letterSpacing: '8px',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  fontFamily: 'sans-serif'
+                }}
+              >
+                MATINIK
+              </div>
+
+              <div style={{ position: 'relative', width: '100%', zIndex: 2 }}>
+                {/* Multiplayer Scoreboard Bar */}
               <div className="matinik-scoreboard-multi">
                 <div className="matinik-multi-meta">
                   <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent-terracotta)' }}>
@@ -1342,6 +1362,7 @@ export function MatinikGame() {
                   </div>
                 </div>
               )}
+              </div>
             </div>
           )}
         </div>

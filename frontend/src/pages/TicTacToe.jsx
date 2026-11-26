@@ -983,29 +983,50 @@ export function TicTacToe() {
         </div>
       )}
 
-      {/* 3x3 Game Board Grid */}
-      <div className="tictac-grid">
-        {board.map((cell, index) => {
-          const isWinningCell = gameResult?.line?.includes(index);
-          const isDisabled =
-            !!cell ||
-            !!gameResult ||
-            isAiThinking ||
-            (mode === 'online' && (!isMyTurnOnline || onlineStatus !== 'connected'));
+      {/* Handcrafted Wooden Game Board Table Surface */}
+      <div className="tictac-table-surface">
+        {/* Subtle Table Center Watermark */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: '5rem',
+            fontWeight: 900,
+            color: 'rgba(255,255,255,0.03)',
+            letterSpacing: '8px',
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
+        >
+          #
+        </div>
 
-          return (
-            <button
-              key={index}
-              type="button"
-              onClick={() => handleCellClick(index)}
-              disabled={isDisabled}
-              className={`tictac-cell ${cell ? cell.toLowerCase() : ''} ${isWinningCell ? 'winning' : ''}`}
-              aria-label={`Cell ${index + 1}`}
-            >
-              {cell}
-            </button>
-          );
-        })}
+        {/* 3x3 Game Board Grid */}
+        <div className="tictac-grid" style={{ width: '100%', maxWidth: '330px', position: 'relative', zIndex: 2 }}>
+          {board.map((cell, index) => {
+            const isWinningCell = gameResult?.line?.includes(index);
+            const isDisabled =
+              !!cell ||
+              !!gameResult ||
+              isAiThinking ||
+              (mode === 'online' && (!isMyTurnOnline || onlineStatus !== 'connected'));
+
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={() => handleCellClick(index)}
+                disabled={isDisabled}
+                className={`tictac-cell tictac-wood-cell ${cell ? cell.toLowerCase() : ''} ${isWinningCell ? 'winning' : ''}`}
+                aria-label={`Cell ${index + 1}`}
+              >
+                {cell}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Action Controls */}

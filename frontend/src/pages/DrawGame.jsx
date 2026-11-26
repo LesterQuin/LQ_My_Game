@@ -285,37 +285,40 @@ export function DrawGame({
         </div>
       </div>
 
-      {/* Main 3-Column / Responsive Game Layout */}
-      <div className="draw-layout-grid">
-        {/* Left Column: Player Leaderboard */}
-        <div className="draw-col-scoreboard">
-          <ScoreBoard
-            players={players}
-            currentDrawerId={currentDrawer?.playerId}
-            currentUserId={playerId}
-          />
-        </div>
+      {/* Main Studio Drafting Easel Table */}
+      <div className="draw-studio-table">
+        {/* Main 3-Column / Responsive Game Layout */}
+        <div className="draw-layout-grid" style={{ position: 'relative', zIndex: 2 }}>
+          {/* Left Column: Player Leaderboard */}
+          <div className="draw-col-scoreboard">
+            <ScoreBoard
+              players={players}
+              currentDrawerId={currentDrawer?.playerId}
+              currentUserId={playerId}
+            />
+          </div>
 
-        {/* Center Column: Live Drawing Canvas */}
-        <div className="draw-col-canvas">
-          <DrawingCanvas
-            isDrawer={isDrawer && status === 'DRAWING'}
-            strokes={strokes}
-            onDrawSegment={onDrawSegment}
-            onClearCanvas={onClearCanvas}
-            onUndoStroke={onUndoStroke}
-          />
-        </div>
+          {/* Center Column: Live Drawing Canvas */}
+          <div className="draw-col-canvas">
+            <DrawingCanvas
+              isDrawer={isDrawer && status === 'DRAWING'}
+              strokes={strokes}
+              onDrawSegment={onDrawSegment}
+              onClearCanvas={onClearCanvas}
+              onUndoStroke={onUndoStroke}
+            />
+          </div>
 
-        {/* Right Column: Live Guess Chat */}
-        <div className="draw-col-chat">
-          <GuessChat
-            messages={messages}
-            onSendGuess={onSubmitGuess}
-            isDrawer={isDrawer}
-            hasGuessed={hasGuessed}
-            disabled={status !== 'DRAWING'}
-          />
+          {/* Right Column: Live Guess Chat */}
+          <div className="draw-col-chat">
+            <GuessChat
+              messages={messages}
+              onSendGuess={onSubmitGuess}
+              isDrawer={isDrawer}
+              hasGuessed={hasGuessed}
+              disabled={status !== 'DRAWING'}
+            />
+          </div>
         </div>
       </div>
     </div>

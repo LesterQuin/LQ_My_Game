@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Users, Edit3, MessageCircle, Heart, ArrowRight, Grid, Flame } from 'lucide-react';
+import { Sparkles, Users, Edit3, MessageCircle, Heart, ArrowRight, Grid, Flame, Layers } from 'lucide-react';
 
 export function Home() {
   return (
@@ -162,6 +162,36 @@ export function Home() {
             }}
           >
             <span>Play Matinick si Les</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {/* Game 5: Uno ni Les */}
+        <div className="hub-game-card highlight">
+          <div className="hub-card-header">
+            <div className="hub-game-icon uno" style={{ backgroundColor: '#FEE2E2', borderRadius: '12px', padding: '8px' }}>
+              <Layers size={28} color="#DC2626" />
+            </div>
+            <span className="hub-tag new" style={{ backgroundColor: '#DC2626', color: '#FFF' }}>New Game!</span>
+          </div>
+
+          <h3 className="hub-game-title">Uno ni Les</h3>
+          <p className="hub-game-desc">
+            Classic Uno card game! Match by color or number, play Wild and action cards, and shout "UNO!" before anyone catches you!
+          </p>
+
+          <Link
+            to="/uno"
+            className="btn btn-primary btn-block"
+            style={{
+              padding: '0.85rem',
+              fontSize: '0.95rem',
+              marginTop: 'auto',
+              backgroundColor: '#DC2626',
+              borderColor: '#DC2626'
+            }}
+          >
+            <span>Play Uno ni Les</span>
             <ArrowRight size={16} />
           </Link>
         </div>

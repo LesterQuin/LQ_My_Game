@@ -201,77 +201,99 @@ export function Game({
         </span>
       </div>
 
-      {/* Ornate Designed Conversation Card */}
-      <div className="card-wrapper">
-        <div className="comfort-card-physical">
-          {/* Corner Filigree Ornaments */}
-          <div className="card-corner corner-tl" />
-          <div className="card-corner corner-tr" />
-          <div className="card-corner corner-bl" />
-          <div className="card-corner corner-br" />
+      {/* Warm Parlor Coffee Table Surface */}
+      <div className="comfort-table-surface">
+        {/* Table Center Watermark */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: '4.5rem',
+            fontWeight: 900,
+            color: 'rgba(255,255,255,0.03)',
+            letterSpacing: '8px',
+            pointerEvents: 'none',
+            userSelect: 'none',
+            fontFamily: 'serif'
+          }}
+        >
+          COMFORT
+        </div>
 
-          {/* Top Header Bar */}
-          <div className="card-top-bar">
-            <div className="card-theme-tag">
-              <Sparkles size={12} />
-              <span>{categoryName}</span>
-            </div>
-            <div className="card-num-badge">
-              Question {currentCardIndex + 1} of {totalCards}
-            </div>
-          </div>
+        {/* Ornate Designed Conversation Card */}
+        <div className="card-wrapper" style={{ width: '100%', maxWidth: '540px', position: 'relative', zIndex: 2 }}>
+          <div className="comfort-card-physical">
+            {/* Corner Filigree Ornaments */}
+            <div className="card-corner corner-tl" />
+            <div className="card-corner corner-tr" />
+            <div className="card-corner corner-bl" />
+            <div className="card-corner corner-br" />
 
-          {/* Question Content Area */}
-          <div className="card-content-area">
-            {/* Primary Tagalog Question */}
-            <div className="card-primary-question">
-              "{tagalogText}"
+            {/* Top Header Bar */}
+            <div className="card-top-bar">
+              <div className="card-theme-tag">
+                <Sparkles size={12} />
+                <span>{categoryName}</span>
+              </div>
+              <div className="card-num-badge">
+                Question {currentCardIndex + 1} of {totalCards}
+              </div>
             </div>
 
-            {/* Ornate Divider with Gem Accent */}
-            {englishText && (
-              <div className="card-ornate-divider">
-                <span>✦</span>
+            {/* Question Content Area */}
+            <div className="card-content-area">
+              {/* Primary Tagalog Question */}
+              <div className="card-primary-question">
+                "{tagalogText}"
+              </div>
+
+              {/* Ornate Divider with Gem Accent */}
+              {englishText && (
+                <div className="card-ornate-divider">
+                  <span>✦</span>
+                </div>
+              )}
+
+              {/* English Translation */}
+              {englishText && (
+                <div className="card-english-translation">
+                  <span className="translation-label">English Translation</span>
+                  "{englishText}"
+                </div>
+              )}
+            </div>
+
+            {/* Card Middle Button: View Sample Answer */}
+            {(currentCard?.sampleAnswerTagalog || currentCard?.sampleAnswerEnglish) && (
+              <div style={{ margin: '1rem 0 0.5rem', zIndex: 4 }}>
+                <button
+                  type="button"
+                  onClick={() => setShowSampleModal(true)}
+                  className="btn btn-secondary"
+                  style={{
+                    fontSize: '0.875rem',
+                    padding: '0.55rem 1.25rem',
+                    border: '1px solid var(--accent-border)',
+                    backgroundColor: '#FFFDF9',
+                    boxShadow: '0 2px 6px rgba(45, 41, 38, 0.04)'
+                  }}
+                >
+                  <Lightbulb size={15} color="#D96B43" />
+                  <span>View Sample Answer</span>
+                </button>
               </div>
             )}
 
-            {/* English Translation */}
-            {englishText && (
-              <div className="card-english-translation">
-                <span className="translation-label">English Translation</span>
-                "{englishText}"
+            {/* Card Footer */}
+            <div className="card-bottom-footer">
+              <div className="card-instruction-note">
+                Read aloud and discuss naturally together.
               </div>
-            )}
-          </div>
-
-          {/* Card Middle Button: View Sample Answer */}
-          {(currentCard?.sampleAnswerTagalog || currentCard?.sampleAnswerEnglish) && (
-            <div style={{ margin: '1rem 0 0.5rem', zIndex: 4 }}>
-              <button
-                type="button"
-                onClick={() => setShowSampleModal(true)}
-                className="btn btn-secondary"
-                style={{
-                  fontSize: '0.875rem',
-                  padding: '0.55rem 1.25rem',
-                  border: '1px solid var(--accent-border)',
-                  backgroundColor: '#FFFDF9',
-                  boxShadow: '0 2px 6px rgba(45, 41, 38, 0.04)'
-                }}
-              >
-                <Lightbulb size={15} color="#D96B43" />
-                <span>View Sample Answer</span>
-              </button>
-            </div>
-          )}
-
-          {/* Card Footer */}
-          <div className="card-bottom-footer">
-            <div className="card-instruction-note">
-              Read aloud and discuss naturally together.
-            </div>
-            <div className="card-deck-seal">
-              Comfort ni Les • 60-Card Conversation Deck
+              <div className="card-deck-seal">
+                Comfort ni Les • 60-Card Conversation Deck
+              </div>
             </div>
           </div>
         </div>

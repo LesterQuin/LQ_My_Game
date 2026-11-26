@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Lock, Eye, EyeOff, ShieldCheck, ArrowRight, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export const HOST_PASSCODE = 'Lester!1';
+export const HOST_PASSCODE = 'Lester11';
 const SESSION_AUTH_KEY = 'lq_host_session_auth';
 
 /**
@@ -41,7 +41,7 @@ export function lockHost() {
 
 /**
  * Host Passcode Modal
- * Prompts the user for 'Lester!1' before allowing them to create a room.
+ * Prompts the user for 'Lester11' before allowing them to create a room.
  */
 export function HostPasscodeModal({ isOpen, onClose, onSuccess }) {
   const [passcode, setPasscode] = useState('');
